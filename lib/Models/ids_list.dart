@@ -22,18 +22,18 @@ class IdsListModel {
   IdsListModel.fromJSON(Map<String, dynamic> parsedJSON)
       : listName = parsedJSON['listName'],
         lastUpdated = parsedJSON['lastUpdated'],
-        storyIdsList = parsedJSON['topStories'];
+        storyIdsList = parsedJSON['storyListIds'];
 
   IdsListModel.fromDB(Map<String, dynamic> parsedDB)
       : listName = parsedDB['listName'],
         lastUpdated = parsedDB['lastUpdated'],
-        storyIdsList = jsonDecode(parsedDB['topStories']);
+        storyIdsList = jsonDecode(parsedDB['storyListIds']);
 
   Map<String, dynamic> toMapForDB() {
     return <String, dynamic>{
       "listName": listName,
       "lastUpdated": lastUpdated,
-      "topStories": jsonEncode(storyIdsList)
+      "storyListIds": jsonEncode(storyIdsList)
     };
   }
 }
