@@ -5,15 +5,6 @@ these list include topStories, bestStories, newStories, askStories, showStories,
  */
 import 'dart:convert';
 
-enum IdListType {
-  topStories,
-  bestStories,
-  newStories,
-  askStories,
-  showStories,
-  jobStories
-}
-
 class IdsListModel {
   final String listName;
   final int lastUpdated;
