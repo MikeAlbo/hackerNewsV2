@@ -3,6 +3,8 @@
   UserPrefs will store the user's favorites, last updated time, and categoryShow prefs
  */
 
+import 'dart:convert';
+
 class UserPrefs {
   final int lastUpdated;
   final bool showJobs;
@@ -17,8 +19,8 @@ class UserPrefs {
         showPolls = parsedDB['showPolls'] == 1,
         showStory = parsedDB['showStory'] == 1,
         showAsk = parsedDB['showAsk'] == 1,
-        favorites =
-            parsedDB['favorites'] ?? []; // may need to get rid of null check
+        favorites = jsonDecode(parsedDB['favorites']) ??
+            []; // may need to get rid of null check
 
   Map<String, dynamic> mapUserPrefsForDB() {
     return <String, dynamic>{
@@ -27,7 +29,7 @@ class UserPrefs {
       "showPolls": showPolls ? 1 : 0,
       "showStory": showStory ? 1 : 0,
       "showAsk": showAsk ? 1 : 0,
-      "favorites": favorites
+      "favorites": jsonEncode(favorites)
     };
   }
 }

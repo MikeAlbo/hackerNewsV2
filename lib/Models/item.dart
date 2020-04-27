@@ -4,6 +4,8 @@ Items will be the individual post/comment/etc. retrieved from the HN API
 Items will be stored in either the Post table or the Comment table
  */
 
+import 'dart:convert';
+
 class ItemModel {
   final int id;
   final bool deleted;
@@ -51,11 +53,11 @@ class ItemModel {
         dead = parsedDB['dead'] == 1,
         parent = parsedDB['parent'],
         poll = parsedDB['poll'],
-        kids = parsedDB['kids'],
+        kids = jsonDecode(parsedDB['kids']),
         url = parsedDB['url'],
         score = parsedDB['score'],
         title = parsedDB['title'],
-        parts = parsedDB['parts'],
+        parts = jsonDecode(parsedDB['parts']),
         descendants = parsedDB['descendants'];
 
   // toMapFromDB converts the ItemModel into a map that can be inserted into the SQL table
@@ -70,11 +72,11 @@ class ItemModel {
       "dead": dead ? 1 : 0,
       "parent": parent,
       "poll": poll,
-      "kids": kids,
+      "kids": jsonEncode(kids),
       "url": url,
       "score": score,
       "title": title,
-      "parts": parts,
+      "parts": jsonEncode(parts),
       "descendants": descendants
     };
   }
