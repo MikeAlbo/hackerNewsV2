@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'tables/item_table.dart';
+import 'tables/user_prefs_table.dart';
 
 class DbAPi {
   Database db;
@@ -29,6 +30,7 @@ class DbAPi {
     db = await openDatabase(path, version: 1,
         onCreate: (Database newDb, int version) async {
       await newDb.execute(buildItemTable());
+      await newDb.execute(buildUserPrefsTable());
       // add new await ... execute commands for each table
     });
   }

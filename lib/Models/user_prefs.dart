@@ -6,6 +6,7 @@
 import 'dart:convert';
 
 class UserPrefs {
+  final int userId = 1; // default user ID use as primary key in DB
   final int lastUpdated;
   final bool showJobs;
   final bool showPolls;
