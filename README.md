@@ -1,7 +1,12 @@
 # hacker_news
 
-A new Flutter project.
+A expanded project based off the "News" project from (instructor)'s Udemy class.
 
+## THINGS TO BE ADDED
+* Links to Hacker News website and GitHub API ref
+* how to install and run
+* list of packages used
+* app description 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
