@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'tables/comments_table.dart';
 import 'tables/ids_list_table.dart';
 import 'tables/item_table.dart';
 import 'tables/user_prefs_table.dart';
@@ -33,6 +34,7 @@ class DbAPi {
       await newDb.execute(buildItemTable());
       await newDb.execute(buildUserPrefsTable());
       await newDb.execute(buildIdsListTable());
+      await newDb.execute(buildCommentsTable());
     });
   }
 }

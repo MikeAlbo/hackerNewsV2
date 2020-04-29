@@ -4,7 +4,7 @@
 * comments table should be identical to items
 * */
 
-String buildItemTable() {
+String buildCommentsTable() {
   return '''
   CREATE TABLE Comments (
   id INTEGER PRIMARY KEY,
