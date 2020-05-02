@@ -12,7 +12,7 @@ import 'package:hacker_news/Models/ids_list.dart';
 
 class Repository {
   // retrieve all list from HN
-  Future<IdsListModel> getListofIds(IdListType listType) async {
+  Future<IdsListModel> getListofIds(IdListName listType) async {
     // check to see if list is in db
     // if list is in db, check expiration
     // if not expired return list

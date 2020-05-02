@@ -5,6 +5,8 @@
 
 import 'dart:io';
 
+import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/Models/ids_list.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,5 +38,11 @@ class DbAPi {
       await newDb.execute(buildIdsListTable());
       await newDb.execute(buildCommentsTable());
     });
+  }
+
+  Future<IdsListModel> fetchListOfIDs(IdListName listName) async {
+    final query = await db.query(getTableName(DbTables.listOfIds),
+        columns: null, where: "listName = ?", whereArgs: getListName(listName));
+    return query.length > 0 ? IdsListModel.fromDB(query.first) : null;
   }
 }

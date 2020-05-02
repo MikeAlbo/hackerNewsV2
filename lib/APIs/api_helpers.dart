@@ -5,7 +5,8 @@
 * */
 
 // enum list of the
-enum IdListType {
+
+enum IdListName {
   topStories,
   bestStories,
   newStories,
@@ -14,25 +15,48 @@ enum IdListType {
   jobStories
 }
 
-String _getStoriesList(IdListType listType) {
+enum DbTables { comments, listOfIds, item, userPrefs }
+
+String _getTableName(DbTables dbTables) {
+  String table = "";
+  switch (dbTables) {
+    case DbTables.comments:
+      table = "Comments";
+      break;
+    case DbTables.listOfIds:
+      table = "IdsList";
+      break;
+    case DbTables.item:
+      table = "Items";
+      break;
+    case DbTables.userPrefs:
+      table = "UserPrefs";
+      break;
+    // input is ENUM, no default assigned
+  }
+
+  return table;
+}
+
+String _getStoriesList(IdListName listName) {
   String list = "";
-  switch (listType) {
-    case IdListType.topStories:
+  switch (listName) {
+    case IdListName.topStories:
       list = "topStories";
       break;
-    case IdListType.bestStories:
+    case IdListName.bestStories:
       list = "bestStories";
       break;
-    case IdListType.newStories:
+    case IdListName.newStories:
       list = "newStories";
       break;
-    case IdListType.askStories:
+    case IdListName.askStories:
       list = "askStories";
       break;
-    case IdListType.showStories:
+    case IdListName.showStories:
       list = "showStories";
       break;
-    case IdListType.jobStories:
+    case IdListName.jobStories:
       list = "jobStories";
       break;
     default:
@@ -41,5 +65,6 @@ String _getStoriesList(IdListType listType) {
   return list;
 }
 
-Function(IdListType) get getApiEndPoint => _getStoriesList;
-Function(IdListType) get getListName => _getStoriesList;
+Function(IdListName) get getApiEndPoint => _getStoriesList;
+Function(IdListName) get getListName => _getStoriesList;
+Function(DbTables) get getTableName => _getTableName;
