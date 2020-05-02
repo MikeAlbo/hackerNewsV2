@@ -5,8 +5,21 @@
 * the repo then returns all data, properly formatted back to the app
 * */
 
+import 'dart:async';
+
+import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/Models/ids_list.dart';
+
 class Repository {
   // retrieve all list from HN
+  Future<IdsListModel> getListofIds(IdListType listType) async {
+    // check to see if list is in db
+    // if list is in db, check expiration
+    // if not expired return list
+    // if not in db or expired, can HN API
+    // write to db
+    // return list
+  }
   // retrieve single list from HN
   // validate expiration of list data (use helper function)
   // clear list table (possibly use db helper)
