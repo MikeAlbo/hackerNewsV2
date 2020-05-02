@@ -21,13 +21,10 @@ int timeNowInMilliseconds() {
 /// the bastTime parameter is optional and defaults to DateTime.now()
 bool isExpired(
     {@required Duration duration, @required int timeStamp, DateTime baseTime}) {
-  final int nowInMilliseconds = baseTime != null
-      ? baseTime.millisecondsSinceEpoch
-      : DateTime.now().millisecondsSinceEpoch;
-  final int timeDifference = nowInMilliseconds -
-      timeStamp; // the difference between the current time and the provided timestamp
+  final int timeDifference =
+      (baseTime ?? DateTime.now()).millisecondsSinceEpoch - timeStamp;
   return Duration(milliseconds: timeDifference) > duration;
-}
+} //todo: write test for isExpired
 
 //String formattedTimeDifference({@required int timeStamp}){}
 // formatted time difference between two times
