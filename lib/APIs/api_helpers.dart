@@ -18,7 +18,7 @@ enum IdListName {
 
 enum DbTables { comments, listOfIds, item, userPrefs }
 
-String _getTableName(DbTables dbTables) {
+String getTableName(DbTables dbTables) {
   String table = "";
   switch (dbTables) {
     case DbTables.comments:
@@ -39,7 +39,7 @@ String _getTableName(DbTables dbTables) {
   return table;
 }
 
-String _getStoriesList(IdListName listName) {
+String getStoriesList(IdListName listName) {
   String list = "";
   switch (listName) {
     case IdListName.topStories:
@@ -66,6 +66,5 @@ String _getStoriesList(IdListName listName) {
   return list;
 }
 
-Function(IdListName) get getApiEndPoint => _getStoriesList;
-Function(IdListName) get getListName => _getStoriesList;
-Function(DbTables) get getTableName => _getTableName;
+Function(IdListName) get getApiEndPoint => getStoriesList;
+Function(IdListName) get getListName => getStoriesList;

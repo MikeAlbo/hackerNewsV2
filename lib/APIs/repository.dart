@@ -50,8 +50,6 @@ class Repository {
     return results;
   }
 
-  // retrieve all list from DB
-  // retrieve single list from DB
   // retrieve an item from db
   // retrieve an item from HN
   // write a new item to DB
@@ -65,4 +63,5 @@ class Repository {
   * and == comment, then stored separately. Comments should be retrieved separately
   * using it's own method call and BLOC
   *  */
+
 }
