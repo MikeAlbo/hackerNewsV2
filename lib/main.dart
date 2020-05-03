@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
-    storiesBloc.fetchSingleList();
+    storiesBloc.fetchAllList();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
