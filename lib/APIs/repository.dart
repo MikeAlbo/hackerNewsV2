@@ -19,7 +19,7 @@ final HNFireBaseApi _hnFireBaseApi = HNFireBaseApi();
 
 final Duration listRefreshDuration = Duration(minutes: 30);
 
-class Repository {
+class _Repository {
   /// returns a single list
   ///
   /// check to see if list exist in IdsList table
@@ -65,3 +65,6 @@ class Repository {
   *  */
 
 }
+
+_Repository _repository = _Repository();
+_Repository get getRepository => _repository;

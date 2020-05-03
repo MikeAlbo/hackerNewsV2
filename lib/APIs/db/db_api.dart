@@ -41,8 +41,9 @@ class DbAPi {
   }
 
   Future<IdsListModel> fetchListOfIDs(IdListName listName) async {
+    final String name = getListName(listName);
     final query = await db.query(getTableName(DbTables.listOfIds),
-        columns: null, where: "listName = ?", whereArgs: getListName(listName));
+        columns: null, where: "listName = ?", whereArgs: [name]);
     return query.length > 0 ? IdsListModel.fromDB(query.first) : null;
   }
 
