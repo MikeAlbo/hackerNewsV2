@@ -7,12 +7,7 @@ String buildIdsListTable() {
   return """
   CREATE TABLE IdsList (
     listName Text PRIMARY KEY,
-    topStories BLOB,
-    bestStories BLOB,
-    newStories BLOB,
-    askStories BLOB,
-    showStories BLOB,
-    jobStories BLOB,
+    storyIdsList BLOB,
     lastUpdated INTEGER 
   )
   """;

@@ -66,5 +66,9 @@ String getStoriesList(IdListName listName) {
   return list;
 }
 
-Function(IdListName) get getApiEndPoint => getStoriesList;
+String apiEndpointsInLowerCase(IdListName idListName) {
+  return getStoriesList(idListName).toLowerCase();
+}
+
+Function(IdListName) get getApiEndPoint => apiEndpointsInLowerCase;
 Function(IdListName) get getListName => getStoriesList;

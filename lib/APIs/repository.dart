@@ -10,7 +10,6 @@ import 'dart:async';
 import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/APIs/hn_firebase_api.dart';
 import 'package:hacker_news/Models/ids_list.dart';
-import 'package:hacker_news/helpers/date_time.dart';
 
 import '../APIs/db/db_api.dart';
 
@@ -31,21 +30,32 @@ class _Repository {
   Future<IdsListModel> getListOfIds(IdListName listName) async {
     IdsListModel idsList;
     idsList = await _dbAPi.fetchListOfIDs(listName);
-    if (idsList != null &&
-        !isExpired(
-            duration: listRefreshDuration, timeStamp: idsList.lastUpdated)) {
+    if (idsList != null) {
+      print("--- DB IDS LIST IS NOT NULL FROM DB AND NOT EXPIRED");
       return idsList;
     }
-    idsList = await _hnFireBaseApi.fetchListOfIds(listName);
-    _dbAPi.addListToDb(idsList);
+    print("IDS LIST WAS NULL --  FETCHING FROM DB");
+    IdsListModel newIdsList = await _hnFireBaseApi.fetchListOfIds(listName);
+    await _dbAPi
+        .addListToDb(newIdsList)
+        .then((value) => print("add complete!!!"))
+        .catchError((err) => print(err.toString()));
+
+    idsList = await _dbAPi.fetchListOfIDs(listName);
+
+    if (idsList == null) {
+      print("Ids list is still NULL!! ---");
+    }
+
     return idsList;
   }
 
   Future<Map<String, IdsListModel>> getAllListOfIds() async {
-    Map<String, IdsListModel> results;
-    IdListName.values.forEach((name) async {
+    Map<String, IdsListModel> results = {};
+    await Future.forEach(IdListName.values, (name) async {
       final String listName = getListName(name);
-      results[listName] = await getListOfIds(name);
+      final IdsListModel model = await getListOfIds(name);
+      results[listName] = model;
     });
     return results;
   }

@@ -8,11 +8,11 @@ import 'dart:convert';
 class IdsListModel {
   final String listName;
   final int lastUpdated;
-  final List<int> storyIdsList;
+  final List<dynamic> storyIdsList;
 
   IdsListModel.fromJSON(Map<String, dynamic> parsedJSON)
       : listName = parsedJSON['listName'],
-        lastUpdated = parsedJSON['lastUpdated'],
+        lastUpdated = parsedJSON['lastUpdated'] ?? 0, // test
         storyIdsList = parsedJSON['storyIdsList'];
 
   IdsListModel.fromDB(Map<String, dynamic> parsedDB)
