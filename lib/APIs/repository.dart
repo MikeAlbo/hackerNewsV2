@@ -40,6 +40,16 @@ class Repository {
     _dbAPi.addListToDb(idsList);
     return idsList;
   }
+
+  Future<Map<String, IdsListModel>> getAllListOfIds() async {
+    Map<String, IdsListModel> results;
+    IdListName.values.forEach((name) async {
+      final String listName = getListName(name);
+      results[listName] = await getListOfIds(name);
+    });
+    return results;
+  }
+
   // retrieve all list from DB
   // retrieve single list from DB
   // retrieve an item from db
