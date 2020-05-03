@@ -4,6 +4,7 @@
 * easier and consistent
 * */
 
+//todo: consider moving helpers to the appropriate class files
 // enum list of the
 
 enum IdListName {

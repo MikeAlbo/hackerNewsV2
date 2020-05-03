@@ -18,8 +18,8 @@ class HNFireBaseApi {
 
   Client _client = Client();
 
-  Future<IdsListModel> fetchListOfIds(IdListName listType) async {
-    final String _listName = getApiEndPoint(listType);
+  Future<IdsListModel> fetchListOfIds(IdListName listName) async {
+    final String _listName = getApiEndPoint(listName);
     final String _url = "$_rootUrl/$_listName.json";
     final Response _response = await _client.get(_url);
     final List<int> _ids = json.decode(_response.body);

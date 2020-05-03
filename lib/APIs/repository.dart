@@ -8,22 +8,38 @@
 import 'dart:async';
 
 import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/APIs/hn_firebase_api.dart';
 import 'package:hacker_news/Models/ids_list.dart';
+import 'package:hacker_news/helpers/date_time.dart';
+
+import '../APIs/db/db_api.dart';
+
+final DbAPi _dbAPi = DbAPi();
+final HNFireBaseApi _hnFireBaseApi = HNFireBaseApi();
+
+final Duration listRefreshDuration = Duration(minutes: 30);
 
 class Repository {
-  // retrieve all list from HN
-  Future<IdsListModel> getListofIds(IdListName listType) async {
-    // check to see if list is in db
-    // if list is in db, check expiration
-    // if not expired return list
-    // if not in db or expired, can HN API
-    // write to db
-    // return list
+  /// returns a single list
+  ///
+  /// check to see if list exist in IdsList table
+  /// if so, check expiration
+  /// if expired or returns null, pass through, else return list
+  /// fetch new list from api
+  /// replace/ add to table
+  /// return list
+  Future<IdsListModel> getListOfIds(IdListName listName) async {
+    IdsListModel idsList;
+    idsList = await _dbAPi.fetchListOfIDs(listName);
+    if (idsList != null &&
+        !isExpired(
+            duration: listRefreshDuration, timeStamp: idsList.lastUpdated)) {
+      return idsList;
+    }
+    idsList = await _hnFireBaseApi.fetchListOfIds(listName);
+    _dbAPi.addListToDb(idsList);
+    return idsList;
   }
-  // retrieve single list from HN
-  // validate expiration of list data (use helper function)
-  // clear list table (possibly use db helper)
-  // write list to DB
   // retrieve all list from DB
   // retrieve single list from DB
   // retrieve an item from db

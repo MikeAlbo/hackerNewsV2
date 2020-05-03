@@ -45,4 +45,10 @@ class DbAPi {
         columns: null, where: "listName = ?", whereArgs: getListName(listName));
     return query.length > 0 ? IdsListModel.fromDB(query.first) : null;
   }
+
+  Future<int> addListToDb(IdsListModel idsListModel) {
+    return db.insert(
+        getTableName(DbTables.listOfIds), idsListModel.toMapForDB(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
 }
