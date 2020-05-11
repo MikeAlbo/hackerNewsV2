@@ -86,4 +86,7 @@ class DbAPi {
     return await db.insert(tableName, itemModel.toMapForDB(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
+  // clear comments table
+  // clear all items
 }
