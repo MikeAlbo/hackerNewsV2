@@ -22,6 +22,7 @@ class ItemModel {
   final String title;
   final List<dynamic> parts;
   final int descendants;
+  final int updated;
 
   // the fromJSON named constructor parses the inbound JSON data from the API
   ItemModel.fromJSON(Map<String, dynamic> parsedJSON)
@@ -39,7 +40,8 @@ class ItemModel {
         score = parsedJSON['score'] ?? 0,
         title = parsedJSON['title'] ?? "",
         parts = parsedJSON['parts'] ?? [],
-        descendants = parsedJSON['descendants'] ?? 0;
+        descendants = parsedJSON['descendants'] ?? 0,
+        updated = parsedJSON['updated'] ?? 0;
 
   // the fromDB named constructor parses the inbound item data from the DB provider
 
@@ -58,7 +60,8 @@ class ItemModel {
         score = parsedDB['score'],
         title = parsedDB['title'],
         parts = jsonDecode(parsedDB['parts']),
-        descendants = parsedDB['descendants'];
+        descendants = parsedDB['descendants'],
+        updated = parsedDB['updated'];
 
   // toMapFromDB converts the ItemModel into a map that can be inserted into the SQL table
   Map<String, dynamic> toMapForDB() {
@@ -77,7 +80,8 @@ class ItemModel {
       "score": score,
       "title": title,
       "parts": jsonEncode(parts),
-      "descendants": descendants
+      "descendants": descendants,
+      "updated": updated
     };
   }
 }

@@ -25,7 +25,7 @@ class DbAPi {
 
   // database name, UPDATE THIS STRING TO CHANGE DB NAME!
   String dbName =
-      "hackerNewsV6"; // reconfigured idsList table to use storyIdsList and remove others
+      "hackerNewsV7"; // add updated field to item and comment tables
 
   DbAPi() {
     // call the init function to setup DB connection

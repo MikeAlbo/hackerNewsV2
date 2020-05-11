@@ -20,7 +20,8 @@ String buildItemTable() {
   score INTEGER,
   title TEXT,
   parts BLOB,
-  descendants INTEGER
+  descendants INTEGER,
+  updated INTEGER
   )
   ''';
 }

@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/Models/item.dart';
 import 'package:http/http.dart' show Client, Response;
 
 import '../Models/ids_list.dart';
@@ -18,6 +19,7 @@ class HNFireBaseApi {
 
   Client _client = Client();
 
+  // fetch a list of IDs from the HN Firebase API
   Future<IdsListModel> fetchListOfIds(IdListName listName) async {
     final String _endPointName = getApiEndPoint(listName);
     final String _listName = getListName(listName);
@@ -31,5 +33,14 @@ class HNFireBaseApi {
       "storyIdsList": _ids
     };
     return IdsListModel.fromJSON(_jsonItem);
+  }
+
+  // fetch an Item (Item / Comment) from the HN Firebase API
+  Future<ItemModel> fetchItem(int id) async {
+    final String _url = "$_rootUrl/item/$id.json";
+    final Response response = await _client.get(_url);
+    var parsedJson = json.decode(response.body);
+    parsedJson["updated"] = timeNowInMilliseconds();
+    return ItemModel.fromJSON(parsedJson);
   }
 }
