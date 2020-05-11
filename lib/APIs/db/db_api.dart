@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/Models/ids_list.dart';
+import 'package:hacker_news/Models/item.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -46,6 +47,7 @@ class DbAPi {
     });
   }
 
+  // fetch a list of IDs from the DB
   Future<IdsListModel> fetchListOfIDs(IdListName listName) async {
     await ready;
     final String name = getListName(listName);
@@ -56,12 +58,32 @@ class DbAPi {
     return query.length < 1 ? null : IdsListModel.fromDB(query.first);
   }
 
+  // add a list of IDs to the DB
   Future<int> addListToDb(IdsListModel idsListModel) async {
     await ready;
     final String tableName = getTableName(DbTables.listOfIds);
     print(
         "addListToDbL TABLE NAME: $tableName, LIST NAME ${idsListModel.listName}");
     return await db.insert(tableName, idsListModel.toMapForDB(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  // fetch an Item or Comment from the DB
+  Future<ItemModel> fetchItem({ItemType itemType, int id}) async {
+    await ready;
+    final String tableName = getTableName(
+        itemType == ItemType.comment ? DbTables.comments : DbTables.item);
+    final query = await db
+        .query(tableName, columns: null, where: "id = ?", whereArgs: [id]);
+    return query.length < 1 ? null : ItemModel.fromDB(query.first);
+  }
+
+  // write an Item or Comment to the DB
+  Future<int> addItemToDb({ItemType itemType, ItemModel itemModel}) async {
+    await ready;
+    final String tableName = getTableName(
+        itemType == ItemType.comment ? DbTables.comments : DbTables.item);
+    return await db.insert(tableName, itemModel.toMapForDB(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 }

@@ -40,7 +40,7 @@ class HNFireBaseApi {
     final String _url = "$_rootUrl/item/$id.json";
     final Response response = await _client.get(_url);
     var parsedJson = json.decode(response.body);
-    parsedJson["updated"] = timeNowInMilliseconds();
+    parsedJson["lastUpdated"] = timeNowInMilliseconds();
     return ItemModel.fromJSON(parsedJson);
   }
 }

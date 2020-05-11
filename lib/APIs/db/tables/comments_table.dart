@@ -22,7 +22,7 @@ String buildCommentsTable() {
   title TEXT,
   parts BLOB,
   descendants INTEGER,
-  updated INTEGER
+  lastUpdated INTEGER
   )
   ''';
 }

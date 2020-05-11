@@ -18,6 +18,8 @@ enum IdListName {
 
 enum DbTables { comments, listOfIds, item, userPrefs }
 
+enum ItemType { item, comment }
+
 String getTableName(DbTables dbTables) {
   String table = "";
   switch (dbTables) {
