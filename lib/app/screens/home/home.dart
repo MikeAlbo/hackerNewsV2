@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/BLOCs/Items/items_bloc.dart';
+import 'package:hacker_news/BLOCs/Items/items_provider.dart';
+import 'package:hacker_news/BLOCs/Stories/stories_bloc.dart';
+import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/app/widgets/list_view.dart';
 
 import 'app_bar.dart';
@@ -21,9 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ItemsBloc itemsBloc = ItemsProvider.of(context);
+    final StoriesBloc storiesBloc = StoriesProvider.of(context);
+    storiesBloc.fetchSingleList(idListName: IdListName.topStories);
     return Scaffold(
       appBar: buildHomeAppBar(title: "Hacker News"),
-      body: buildListView(),
+      body: buildListView(storiesBloc: storiesBloc, itemsBloc: itemsBloc),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white70,
         unselectedItemColor: Colors.grey[600],

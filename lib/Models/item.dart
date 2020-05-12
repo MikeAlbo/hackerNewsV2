@@ -61,7 +61,7 @@ class ItemModel {
         title = parsedDB['title'],
         parts = jsonDecode(parsedDB['parts']),
         descendants = parsedDB['descendants'],
-        lastUpdated = parsedDB['lastUpdated'];
+        lastUpdated = parsedDB['lastUpdated'] ?? 0;
 
   // toMapFromDB converts the ItemModel into a map that can be inserted into the SQL table
   Map<String, dynamic> toMapForDB() {
@@ -81,7 +81,7 @@ class ItemModel {
       "title": title,
       "parts": jsonEncode(parts),
       "descendants": descendants,
-      "lastUpdated": lastUpdated
+      "lastUpdated": lastUpdated ?? 0
     };
   }
 }

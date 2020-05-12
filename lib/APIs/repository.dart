@@ -65,6 +65,7 @@ class _Repository {
       return item;
     }
     item = await _hnFireBaseApi.fetchItem(id);
+    _dbAPi.addItemToDb(itemType: ItemType.comment, itemModel: item);
     return item;
   }
 
@@ -73,24 +74,18 @@ class _Repository {
     ItemModel item;
     item = await _dbAPi.fetchItem(itemType: ItemType.item, id: id);
     if (item != null) {
+      print("Got item from db");
       return item;
     }
     item = await _hnFireBaseApi.fetchItem(id);
+    _dbAPi.addItemToDb(itemType: ItemType.item, itemModel: item);
+    print("going to APi for item");
     return item;
   }
-  // retrieve an item from db
-  // retrieve an item from HN
-  // write a new item to DB
+
   // filter cached items for type (may not be needed)
   // clear entire db
   // clear comment data
-
-  /*
-  * there needs to be a separate comments table that can be cleared independently
-  * of the regular items table. When an item is fetched, the "Type" should be checked
-  * and == comment, then stored separately. Comments should be retrieved separately
-  * using it's own method call and BLOC
-  *  */
 
 }
 

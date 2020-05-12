@@ -13,6 +13,7 @@ class StoriesBloc {
       PublishSubject<IdsListModel>();
 
   Stream<Map<String, IdsListModel>> get listOfIds => _allListOfIds.stream;
+  Stream<IdsListModel> get singleListOfIds => _singleListOfIds.stream;
 
   fetchAllList() async {
     final list = await repo.getAllListOfIds();
