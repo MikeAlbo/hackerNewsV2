@@ -17,14 +17,15 @@ class ListTileBuilder extends StatelessWidget {
       builder: (BuildContext context,
           AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return Text("no item data");
+          return Text("no item data"); //todo: loading icon
         }
         return FutureBuilder(
           future: snapshot.data[id],
           builder:
               (BuildContext context, AsyncSnapshot<ItemModel> itemSnapshot) {
             if (!itemSnapshot.hasData) {
-              return Text("Item Snapshot has not data id: $id");
+              return Text(
+                  "Item Snapshot has not data id: $id"); // todo: placeholder tile
             }
             return buildListTile(
                 context: context, itemModel: itemSnapshot.data);

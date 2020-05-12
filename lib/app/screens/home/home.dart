@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
-import 'package:hacker_news/BLOCs/Items/items_bloc.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
-import 'package:hacker_news/BLOCs/Stories/stories_bloc.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/app/widgets/list_view.dart';
 
@@ -17,11 +15,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  String title = "Hacker News";
+  bool isMainTitle = true;
 
   void selectTab(int newIndex) {
     setState(() {
       _currentIndex = newIndex;
+      updateHeading(newIndex);
     });
+  }
+
+  void updateHeading(int index) {
+    switch (index) {
+      case 0:
+        title = "Hacker News";
+        isMainTitle = true;
+        break;
+      case 1:
+        title = "Saved";
+        isMainTitle = false;
+        break;
+      case 2:
+        title = "Top Stories";
+        isMainTitle = false;
+        break;
+      default:
+        title = "Hacker News";
+        isMainTitle = true;
+        break;
+    }
   }
 
   @override
@@ -30,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
     storiesBloc.fetchSingleList(idListName: IdListName.topStories);
     return Scaffold(
-      appBar: buildHomeAppBar(title: "Hacker News"),
+      appBar: buildHomeAppBar(title: title, isMainTitle: isMainTitle),
       body: buildListView(storiesBloc: storiesBloc, itemsBloc: itemsBloc),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white70,
@@ -39,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: selectTab,
         items: [
           buildNavBarItem(icon: Icons.home, title: "Home"),
-          buildNavBarItem(icon: Icons.poll, title: "Poll"),
-          buildNavBarItem(icon: Icons.question_answer, title: "Ask"),
-          buildNavBarItem(icon: Icons.web, title: "Show"), // test no text
+          buildNavBarItem(icon: Icons.bookmark_border, title: "Saved"),
+          buildNavBarItem(icon: Icons.list, title: "Stories"),
+          buildNavBarItem(icon: Icons.menu, title: "more"), // test no text
         ],
       ),
     );
