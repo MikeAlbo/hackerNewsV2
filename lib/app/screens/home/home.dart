@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
-import 'package:hacker_news/BLOCs/Items/items_provider.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
-import 'package:hacker_news/app/widgets/list_view.dart';
+import 'package:hacker_news/app/screens/favorites/favorites_screen.dart';
+import 'package:hacker_news/app/screens/profile/profile_screen.dart';
+import 'package:hacker_news/app/screens/stories/stories_screen.dart';
+import 'package:hacker_news/app/screens/summary/summary_screen.dart';
 
 import 'app_bar.dart';
 
@@ -50,36 +52,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> screens = [
-    Expanded(
-      child: Container(
-        color: Colors.red,
-      ),
-    ),
-    Expanded(
-      child: Container(
-        color: Colors.green,
-      ),
-    ),
-    Expanded(
-      child: Container(
-        color: Colors.blue,
-      ),
-    ),
-    Expanded(
-      child: Container(
-        color: Colors.yellow,
-      ),
-    )
+    SummaryScreen(),
+    StoriesScreen(),
+    FavoritesScreen(),
+    ProfileScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
-    final ItemsBloc itemsBloc = ItemsProvider.of(context);
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
     storiesBloc.fetchSingleList(idListName: IdListName.topStories);
     return Scaffold(
       appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
-      body: buildListView(storiesBloc: storiesBloc),
+      //body: buildListView(storiesBloc: storiesBloc),
+      body: screens.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white70,
         unselectedItemColor: Colors.grey[600],

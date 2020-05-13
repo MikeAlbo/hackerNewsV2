@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/Models/item.dart';
+
+import '../../../Models/item.dart';
 
 //todo: replace fake icon colors and icon with actual data driven params
 
