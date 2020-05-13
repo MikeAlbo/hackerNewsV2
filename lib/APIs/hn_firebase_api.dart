@@ -40,6 +40,9 @@ class HNFireBaseApi {
     final String _url = "$_rootUrl/item/$id.json";
     final Response response = await _client.get(_url);
     Map<String, dynamic> parsedJson = json.decode(response.body);
+    if (parsedJson == null) {
+      return ItemModel.fromJSON(parsedJson);
+    }
     parsedJson["lastUpdated"] = timeNowInMilliseconds();
     return ItemModel.fromJSON(parsedJson);
   }

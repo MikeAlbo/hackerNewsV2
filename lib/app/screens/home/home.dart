@@ -6,8 +6,6 @@ import 'package:hacker_news/app/screens/profile/profile_screen.dart';
 import 'package:hacker_news/app/screens/stories/stories_screen.dart';
 import 'package:hacker_news/app/screens/summary/summary_screen.dart';
 
-import 'app_bar.dart';
-
 // todo: will need to pass the block through to dependants for their actions to work
 
 class HomeScreen extends StatefulWidget {
@@ -63,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
     storiesBloc.fetchSingleList(idListName: IdListName.topStories);
     return Scaffold(
-      appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
+      //appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
       //body: buildListView(storiesBloc: storiesBloc),
       body: screens.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
