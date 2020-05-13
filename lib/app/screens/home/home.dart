@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   String title = "Hacker News";
-  bool isMainTitle = true;
+  bool centerTitle = true;
 
   void selectTab(int newIndex) {
     setState(() {
@@ -29,22 +29,48 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (index) {
       case 0:
         title = "Hacker News";
-        isMainTitle = true;
+        centerTitle = true;
         break;
       case 1:
-        title = "Saved";
-        isMainTitle = false;
+        title = "Stories";
+        centerTitle = false;
+
         break;
       case 2:
-        title = "Top Stories";
-        isMainTitle = false;
+        title = "Favorites";
+        centerTitle = false;
+
         break;
       default:
-        title = "Hacker News";
-        isMainTitle = true;
+        title = "Settings";
+        centerTitle = false;
+
         break;
     }
   }
+
+  List<Widget> screens = [
+    Expanded(
+      child: Container(
+        color: Colors.red,
+      ),
+    ),
+    Expanded(
+      child: Container(
+        color: Colors.green,
+      ),
+    ),
+    Expanded(
+      child: Container(
+        color: Colors.blue,
+      ),
+    ),
+    Expanded(
+      child: Container(
+        color: Colors.yellow,
+      ),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
     storiesBloc.fetchSingleList(idListName: IdListName.topStories);
     return Scaffold(
-      appBar: buildHomeAppBar(title: title, isMainTitle: isMainTitle),
-      body: buildListView(storiesBloc: storiesBloc, itemsBloc: itemsBloc),
+      appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
+      body: buildListView(storiesBloc: storiesBloc),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white70,
         unselectedItemColor: Colors.grey[600],
@@ -61,9 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: selectTab,
         items: [
           buildNavBarItem(icon: Icons.home, title: "Home"),
+          buildNavBarItem(icon: Icons.library_books, title: "Stories"),
           buildNavBarItem(icon: Icons.bookmark_border, title: "Saved"),
-          buildNavBarItem(icon: Icons.list, title: "Stories"),
-          buildNavBarItem(icon: Icons.menu, title: "more"), // test no text
+          buildNavBarItem(
+              icon: Icons.person_outline, title: "Settings"), // test no text
         ],
       ),
     );

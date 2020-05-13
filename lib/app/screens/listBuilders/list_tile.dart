@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/Models/item.dart';
 
-Widget buildListTile({BuildContext context, ItemModel itemModel}) {
+//todo: replace fake icon colors and icon with actual data driven params
+
+Widget buildListTile({BuildContext context, ItemModel item}) {
   return ListTile(
     title: Text(
-      itemModel.title,
+      item.title,
       overflow: TextOverflow.ellipsis,
     ),
-    subtitle: subtitleBuilder(itemModel),
+    subtitle: subtitleBuilder(item),
+    trailing: IconButton(
+      color: item.id % 2 == 0 ? Colors.grey[400] : Colors.redAccent,
+      icon:
+          item.id % 2 == 0 ? Icon(Icons.bookmark_border) : Icon(Icons.bookmark),
+      onPressed: () {},
+    ),
   );
 }
 
@@ -19,7 +27,7 @@ Widget subtitleBuilder(ItemModel itemModel) {
         padding: const EdgeInsets.only(right: 8.0),
         child: Text(itemModel.by),
       ),
-      Text("${itemModel.score}"),
+      Text("${itemModel.time}"),
     ],
   );
 }
