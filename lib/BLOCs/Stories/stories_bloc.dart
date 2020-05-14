@@ -11,6 +11,7 @@ class StoriesBloc {
       PublishSubject<Map<String, IdsListModel>>();
   final PublishSubject<IdsListModel> _singleListOfIds =
       PublishSubject<IdsListModel>();
+  IdListName _idListName = IdListName.newStories;
 
   Stream<Map<String, IdsListModel>> get listOfIds => _allListOfIds.stream;
   Stream<IdsListModel> get singleListOfIds => _singleListOfIds.stream;
@@ -24,6 +25,9 @@ class StoriesBloc {
     final list = await repo.getListOfIds(idListName);
     _singleListOfIds.sink.add(list);
   }
+
+  addCurrentListName({IdListName idListName}) => _idListName = idListName;
+  IdListName get getIdListName => _idListName;
 
   StoriesBloc();
 

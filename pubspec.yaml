@@ -32,6 +32,7 @@ dependencies:
   path_provider: ^1.6.7
   http: ^0.12.1
   rxdart: ^0.24.0
+  jiffy: ^3.0.1
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Items/items_bloc.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
 import 'package:hacker_news/Models/item.dart';
@@ -7,8 +8,9 @@ import 'package:hacker_news/app/widgets/placeholder_tile.dart';
 
 class ListTileBuilder extends StatelessWidget {
   final int id;
+  final IdListName idListName;
 
-  ListTileBuilder({this.id});
+  ListTileBuilder({this.id, this.idListName});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class ListTileBuilder extends StatelessWidget {
             if (!itemSnapshot.hasData) {
               return PlaceHolderTile();
             }
-            return buildListTile(context: context, item: itemSnapshot.data);
+            return buildListTile(
+                context: context,
+                item: itemSnapshot.data,
+                idListName: idListName);
           },
         );
       },
