@@ -41,7 +41,8 @@ class HNFireBaseApi {
     final Response response = await _client.get(_url);
     Map<String, dynamic> parsedJson = json.decode(response.body);
     if (parsedJson == null) {
-      return ItemModel.fromJSON(parsedJson);
+      //return ItemModel.fromJSON(parsedJson);
+      return null;
     }
     parsedJson["lastUpdated"] = timeNowInMilliseconds();
     return ItemModel.fromJSON(parsedJson);
