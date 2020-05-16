@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
 import 'package:hacker_news/Models/item.dart';
-import 'package:hacker_news/app/screens/listBuilders/list_view.dart';
+
+import '../helpers.dart';
 
 //todo: could possibly use ListTileBuilder and return a widget that is passed to the constructor
 
 class SectionTile extends StatelessWidget {
+  final IdListName idListName;
   final int itemId;
 
-  SectionTile({this.itemId});
+  SectionTile({this.itemId, this.idListName});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,8 @@ class SectionTile extends StatelessWidget {
               return Text("ItemModel snapshot has no data");
             }
 
-            return buildCardLayout(ctx: ctx, itemModel: itemSnapshot.data);
+            return buildCardLayout(
+                ctx: ctx, itemModel: itemSnapshot.data, idListName: idListName);
           },
         );
       },
@@ -39,10 +44,17 @@ class SectionTile extends StatelessWidget {
   }
 }
 
-Widget buildCardLayout({BuildContext ctx, ItemModel itemModel}) {
+Widget buildCardLayout(
+    {BuildContext ctx, ItemModel itemModel, IdListName idListName}) {
   return Column(
     children: <Widget>[
       ListTile(
+        contentPadding: EdgeInsets.all(12.0),
+        leading: Icon(
+          chooseArticleIcon(idListName: idListName),
+          size: 20.0,
+          color: Colors.blueGrey,
+        ),
         trailing: IconButton(
           icon: Icon(
             Icons.bookmark,
@@ -54,16 +66,38 @@ Widget buildCardLayout({BuildContext ctx, ItemModel itemModel}) {
           itemModel.title,
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: ListBody(
-          children: <Widget>[
-            Text(
-              itemModel.text,
-              overflow: TextOverflow.fade,
-            ),
-          ],
-        ),
+        subtitle: _buildListBody(ctx: ctx, itemModel: itemModel),
       ),
       insertDivider(isTitle: false),
     ],
+  );
+}
+
+Widget _buildListBody({BuildContext ctx, ItemModel itemModel}) {
+  final String bodyText = itemModel.text == ""
+      ? null
+      : trimBodyText(
+          originalText: itemModel.text,
+          padDirection: PadDirection.padRight,
+          padChar: ".");
+
+  final Text dateAndByText = Text(formatDateByString(itemModel: itemModel));
+  final String linkText = trimUrl(itemModel.url);
+
+  print("Link Text --> $linkText");
+
+  List<Widget> bodyElements = [];
+  if (bodyText != null) {
+    bodyElements.add(Html(
+      data: bodyText,
+    ));
+  }
+  if (linkText != "" || linkText != null) {
+    bodyElements.add(Text(linkText));
+  }
+  bodyElements.add(dateAndByText);
+
+  return ListBody(
+    children: bodyElements,
   );
 }

@@ -25,6 +25,7 @@ class SectionCard extends StatelessWidget {
         idsSubset.length,
         (index) => SectionTile(
               itemId: idsSubset[index],
+              idListName: idListName,
             ));
 
     sectionTitleList.insert(

@@ -61,11 +61,14 @@ class SummaryScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text("list of ids snapshot has no data");
           }
-          return ListView.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext ctx, int index) {
-              return getListOdCards(index: index, snapshot: snapshot);
-            },
+          return Container(
+            color: Colors.grey[400],
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (BuildContext ctx, int index) {
+                return getListOdCards(index: index, snapshot: snapshot);
+              },
+            ),
           );
         },
       ),

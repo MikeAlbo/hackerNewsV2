@@ -33,6 +33,7 @@ dependencies:
   http: ^0.12.1
   rxdart: ^0.24.0
   jiffy: ^3.0.1
+  flutter_html: ^1.0.0
 
 
 dev_dependencies:

@@ -4,6 +4,7 @@ import 'package:hacker_news/BLOCs/Stories/stories_bloc.dart';
 import 'package:hacker_news/Models/ids_list.dart';
 import 'package:hacker_news/app/widgets/placeholder_tile.dart';
 
+import '../helpers.dart';
 import 'list_tile_builder.dart';
 
 //todo: add refresh
@@ -32,13 +33,5 @@ Widget buildListView({StoriesBloc storiesBloc}) {
             }),
       );
     },
-  );
-}
-
-Divider insertDivider({@required bool isTitle}) {
-  return Divider(
-    thickness: isTitle ? 1.0 : 0.5,
-    height: 1.0,
-    color: isTitle ? Colors.black87 : Colors.grey[300],
   );
 }
