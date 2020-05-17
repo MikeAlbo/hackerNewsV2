@@ -20,6 +20,8 @@ enum DbTables { comments, listOfIds, item, userPrefs }
 
 enum ItemType { item, comment }
 
+enum FavoritesListMode { addItem, removeItem }
+
 String getTableName(DbTables dbTables) {
   String table = "";
   switch (dbTables) {

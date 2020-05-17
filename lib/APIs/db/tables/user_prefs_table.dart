@@ -7,10 +7,12 @@ String buildUserPrefsTable() {
   return """
   CREATE TABLE UserPrefs (
     lastUpdated INTEGER,
-    showJobs INTEGER,
-    showPolls INTEGER,
-    showStory INTEGER,
-    showAsk INTEGER,
+    showNewStories INTEGER,
+    showTopStories INTEGER,
+    showBestStories INTEGER,
+    showJobStories INTEGER,
+    showShowStories INTEGER,
+    showAskStories INTEGER,
     favorites BLOB,
     userId INTEGER PRIMARY KEY
   )

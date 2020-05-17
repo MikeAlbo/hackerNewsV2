@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
 import 'package:hacker_news/Models/item.dart';
+import 'package:hacker_news/app/widgets/placeholder_tile.dart';
 
 import '../helpers.dart';
 
@@ -26,13 +27,13 @@ class SectionTile extends StatelessWidget {
       builder: (BuildContext ctx,
           AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return Text("Future<ItemModel> snapshot has no data");
+          return PlaceHolderTile();
         }
         return FutureBuilder(
           future: snapshot.data[itemId],
           builder: (BuildContext ctx, AsyncSnapshot<ItemModel> itemSnapshot) {
             if (!itemSnapshot.hasData) {
-              return Text("ItemModel snapshot has no data");
+              return PlaceHolderTile();
             }
 
             return buildCardLayout(
@@ -64,7 +65,7 @@ Widget buildCardLayout(
         ),
         title: Text(
           itemModel.title,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.visible,
         ),
         subtitle: _buildListBody(ctx: ctx, itemModel: itemModel),
       ),
@@ -92,10 +93,11 @@ Widget _buildListBody({BuildContext ctx, ItemModel itemModel}) {
       data: bodyText,
     ));
   }
+  bodyElements.add(dateAndByText);
+
   if (linkText != "" || linkText != null) {
     bodyElements.add(Text(linkText));
   }
-  bodyElements.add(dateAndByText);
 
   return ListBody(
     children: bodyElements,

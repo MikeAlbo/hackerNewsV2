@@ -3,6 +3,7 @@ import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/Models/ids_list.dart';
 import 'package:hacker_news/app/screens/summary/section_card.dart';
+import 'package:hacker_news/app/widgets/fade_animation.dart';
 
 class SummaryScreen extends StatelessWidget {
   @override
@@ -59,15 +60,20 @@ class SummaryScreen extends StatelessWidget {
         builder: (BuildContext ctx,
             AsyncSnapshot<Map<String, IdsListModel>> snapshot) {
           if (!snapshot.hasData) {
-            return Text("list of ids snapshot has no data");
+            return Container(
+              constraints: BoxConstraints.expand(),
+            );
           }
-          return Container(
-            color: Colors.grey[400],
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (BuildContext ctx, int index) {
-                return getListOdCards(index: index, snapshot: snapshot);
-              },
+          return FadeAnimation(
+            duration: Duration(seconds: 1),
+            child: Container(
+              color: Colors.grey[400],
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (BuildContext ctx, int index) {
+                  return getListOdCards(index: index, snapshot: snapshot);
+                },
+              ),
             ),
           );
         },

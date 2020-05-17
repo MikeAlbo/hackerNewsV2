@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //todo: incorporate theme data
 
-buildHomeAppBar({
+buildAppBar({
   @required String title,
   @required bool centerTitle,
 }) {
@@ -16,5 +16,6 @@ buildHomeAppBar({
     ),
     centerTitle: centerTitle ? true : false,
     backgroundColor: Colors.white,
+    brightness: Brightness.light,
   );
 }

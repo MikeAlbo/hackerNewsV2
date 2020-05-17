@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/Models/ids_list.dart';
 import 'package:hacker_news/Models/item.dart';
+import 'package:hacker_news/Models/user_prefs.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -25,8 +26,7 @@ class DbAPi {
   Database db;
 
   // database name, UPDATE THIS STRING TO CHANGE DB NAME!
-  String dbName =
-      "hackerNewsV9"; // add updated field to item and comment tables
+  String dbName = "hackerNewsV10"; // refactored userPrefs table and model
 
   DbAPi() {
     // call the init function to setup DB connection
@@ -87,6 +87,26 @@ class DbAPi {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  // clear comments table
-  // clear all items
+  // update UserPrefs table
+  Future<int> updateUserPrefs({UserPrefs userPrefs}) async {
+    await ready;
+    final String tableName = getTableName(DbTables.userPrefs);
+    return await db.insert(tableName, userPrefs.mapUserPrefsForDB(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  // get userPrefs
+  Future<UserPrefs> fetchUserPrefs() async {
+    await ready;
+    final String tableName = getTableName(DbTables.userPrefs);
+    final query = await db
+        .query(tableName, columns: null, where: "id = ? ", whereArgs: [1]);
+    return UserPrefs.fromDB(query.first); //todo: handle possible error
+  }
+
+  // drop a table
+  Future<int> deleteTable({DbTables dbTables}) async {
+    await ready;
+    return db.delete(getTableName(dbTables));
+  }
 }
