@@ -21,7 +21,7 @@ class ListTileBuilder extends StatelessWidget {
       builder: (BuildContext context,
           AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if (!snapshot.hasData) {
-          return Text("");
+          return Text(""); //todo: replace with a placeholder
         }
         return FutureBuilder(
           future: snapshot.data[id],
@@ -30,10 +30,10 @@ class ListTileBuilder extends StatelessWidget {
             if (!itemSnapshot.hasData) {
               return PlaceHolderTile();
             }
-            return buildListTile(
-                context: context,
-                item: itemSnapshot.data,
-                idListName: idListName);
+            return BuildListTile(
+              idListName: idListName,
+              itemModel: itemSnapshot.data,
+            );
           },
         );
       },

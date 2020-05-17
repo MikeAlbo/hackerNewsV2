@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 
 import '../../../Models/item.dart';
 import '../helpers.dart';
 
 //todo: replace fake icon colors and icon with actual data driven params
 
-Widget buildListTile(
-    {BuildContext context, ItemModel item, IdListName idListName}) {
-  return ListTile(
-    contentPadding: EdgeInsets.all(15.0),
-    //isThreeLine: item.url != "" ? true : false,
-    title: Text(
-      item.title,
-      overflow: TextOverflow.ellipsis,
-    ),
-    subtitle: subtitleBuilder(itemModel: item, idListName: idListName),
-    trailing: IconButton(
-      color: item.id % 2 == 0 ? Colors.grey[400] : Colors.redAccent,
-      icon:
-          item.id % 2 == 0 ? Icon(Icons.bookmark_border) : Icon(Icons.bookmark),
-      onPressed: () {},
-    ),
-  );
+class BuildListTile extends StatefulWidget {
+  final ItemModel itemModel;
+  final IdListName idListName;
+
+  BuildListTile({this.idListName, this.itemModel});
+
+  @override
+  _BuildListTileState createState() => _BuildListTileState();
+}
+
+class _BuildListTileState extends State<BuildListTile> {
+  @override
+  Widget build(BuildContext context) {
+    StoriesBloc storiesBloc = StoriesProvider.of(context);
+    bool isSelected = storiesBloc.isItemAFavorite(itemId: widget.itemModel.id);
+    return ListTile(
+      contentPadding: EdgeInsets.all(15.0),
+      //isThreeLine: item.url != "" ? true : false,
+      title: Text(
+        widget.itemModel.title,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: subtitleBuilder(
+          itemModel: widget.itemModel, idListName: widget.idListName),
+      trailing: IconButton(
+        color: isSelected ? Colors.redAccent : Colors.grey[400],
+        icon: isSelected ? Icon(Icons.bookmark) : Icon(Icons.bookmark_border),
+        onPressed: () {
+          setState(() {
+            storiesBloc.updateFavoritesList(itemId: widget.itemModel.id);
+          });
+        },
+      ),
+    );
+  }
 }
 
 Widget subtitleBuilder({ItemModel itemModel, IdListName idListName}) {

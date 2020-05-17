@@ -47,15 +47,14 @@ class StoriesBloc {
   // update bool settings
   updateSettingsBool({IdListName idListName}) async {
     UserPrefs userPrefs = await repo.updateShowListBool(idListName: idListName);
-    print("update settings bool: new stories --> ${userPrefs.showNewStories}");
     _userPrefs.sink.add(userPrefs);
   }
 
   // update favoritesList
-  updateFavoritesList({int itemId}) async {
-    UserPrefs userPrefs = await repo.updateItemInFavorites(itemId: itemId);
-    _userPrefs.sink.add(userPrefs);
-  }
+//  updateFavoritesList({int itemId}) async {
+//    UserPrefs userPrefs = await repo.updateItemInFavorites(itemId: itemId);
+//    _userPrefs.sink.add(userPrefs);
+//  }
 
   // update lastUpdated -- method called when story list are refreshed
   updateLastUpdated() async {
@@ -63,7 +62,31 @@ class StoriesBloc {
     _userPrefs.sink.add(userPrefs);
   }
 
-  StoriesBloc();
+  List<int> favoritesList = [];
+
+  void preloadFavoritesList() async {
+    UserPrefs userPrefs = await repo.getUserPrefs();
+    favoritesList = userPrefs.favorites.cast<int>();
+  }
+
+  bool isItemAFavorite({int itemId}) {
+    return favoritesList.indexOf(itemId) != -1;
+  }
+
+  void updateFavoritesList({int itemId}) async {
+    if (isItemAFavorite(itemId: itemId)) {
+      favoritesList.remove(itemId);
+    } else {
+      favoritesList.add(itemId);
+    }
+    UserPrefs userPrefs = await repo.getUserPrefs();
+    userPrefs.favorites = favoritesList;
+    await repo.updateFavorites(userPrefs: userPrefs);
+  }
+
+  StoriesBloc() {
+    //preloadFavoritesList();
+  }
 
   dispose() {
     _allListOfIds.close();

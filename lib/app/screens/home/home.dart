@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/app/screens/favorites/favorites_screen.dart';
 import 'package:hacker_news/app/screens/profile/profile_screen.dart';
@@ -32,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
-    storiesBloc.fetchSingleList(
-        idListName: IdListName.topStories); //todo: move to Router
     storiesBloc.initUserPrefs(); //todo: move to Router
     return Scaffold(
       //appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),

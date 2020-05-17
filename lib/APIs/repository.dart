@@ -101,7 +101,7 @@ class _Repository {
           showShowStories: true,
           lastUpdated: timeNowInMilliseconds(),
           favorites: []);
-      return _dbAPi.updateUserPrefs(userPrefs: userPrefs);
+      return await _dbAPi.updateUserPrefs(userPrefs: userPrefs);
     }
     return null;
   }
@@ -166,6 +166,10 @@ class _Repository {
     }
     await _dbAPi.updateUserPrefs(userPrefs: oldUserPrefs);
     return returnUpdatedPrefs ? await _dbAPi.fetchUserPrefs() : null;
+  }
+
+  Future<int> updateFavorites({UserPrefs userPrefs}) async {
+    return await _dbAPi.updateUserPrefs(userPrefs: userPrefs);
   }
 
 // clear comments table

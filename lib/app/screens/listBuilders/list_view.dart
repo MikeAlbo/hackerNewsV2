@@ -11,12 +11,14 @@ import 'list_tile_builder.dart';
 
 Widget buildListView({StoriesBloc storiesBloc}) {
   IdListName idListName = storiesBloc.getIdListName;
+  //storiesBloc.getUserPrefs();
   return StreamBuilder(
     stream: storiesBloc.singleListOfIds,
     builder: (BuildContext context, AsyncSnapshot<IdsListModel> snapshot) {
       if (!snapshot.hasData) {
         return PlaceHolderTile(); //todo: add placeholder
       }
+
       return Container(
         padding: EdgeInsets.only(left: 5.0, right: 5.0),
         child: ListView.builder(
@@ -25,8 +27,9 @@ Widget buildListView({StoriesBloc storiesBloc}) {
               return Column(
                 children: <Widget>[
                   ListTileBuilder(
-                      id: snapshot.data.storyIdsList[index],
-                      idListName: idListName),
+                    id: snapshot.data.storyIdsList[index],
+                    idListName: idListName,
+                  ),
                   insertDivider(isTitle: false),
                 ],
               );

@@ -26,7 +26,7 @@ class DbAPi {
   Database db;
 
   // database name, UPDATE THIS STRING TO CHANGE DB NAME!
-  String dbName = "hackerNewsV10"; // refactored userPrefs table and model
+  String dbName = "hackerNewsV11"; // refactored userPrefs table and model
 
   DbAPi() {
     // call the init function to setup DB connection
@@ -38,11 +38,11 @@ class DbAPi {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, dbName);
     db = await openDatabase(path, version: 1,
-        onCreate: (Database newDb, int version) {
-      newDb.execute(buildItemTable());
-      newDb.execute(buildUserPrefsTable());
-      newDb.execute(buildIdsListTable());
-      newDb.execute(buildCommentsTable());
+        onCreate: (Database newDb, int version) async {
+      await newDb.execute(buildItemTable());
+      await newDb.execute(buildUserPrefsTable());
+      await newDb.execute(buildIdsListTable());
+      await newDb.execute(buildCommentsTable());
     });
   }
 
@@ -86,7 +86,6 @@ class DbAPi {
   // update UserPrefs table
   Future<int> updateUserPrefs({UserPrefs userPrefs}) async {
     await ready;
-
     final String tableName = getTableName(DbTables.userPrefs);
     return await db
         .insert(tableName, userPrefs.mapUserPrefsForDB(),
