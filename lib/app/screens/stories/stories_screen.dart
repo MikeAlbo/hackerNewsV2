@@ -3,6 +3,7 @@ import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/Models/user_prefs.dart';
 import 'package:hacker_news/app/screens/stories/storry_tab_screen.dart';
+import 'package:hacker_news/app/widgets/app_bar.dart';
 
 class StoriesScreen extends StatefulWidget {
   @override
@@ -79,23 +80,16 @@ class _StoriesScreenState extends State<StoriesScreen> {
         return DefaultTabController(
           length: filteredScreens.length,
           child: Scaffold(
-            appBar: AppBar(
-              elevation: 1.0,
-              brightness: Brightness.light,
-              centerTitle: false,
-              title: Text(
-                "Stories",
-                style: TextStyle(color: Colors.black87),
-              ),
-              backgroundColor: Colors.white,
-              bottom: TabBar(
-                unselectedLabelColor: Colors.grey[500],
-                labelColor: Colors.black87,
-                indicatorColor: Colors.black87,
-                indicatorWeight: 1.0,
-                tabs: filteredTabs,
-              ),
-            ),
+            appBar: buildAppBar(
+                title: "Stories",
+                centerTitle: false,
+                bottom: TabBar(
+                  unselectedLabelColor: Colors.grey[500],
+                  labelColor: Colors.black87,
+                  indicatorColor: Colors.black87,
+                  indicatorWeight: 1.0,
+                  tabs: filteredTabs,
+                )),
             body: TabBarView(
               children: filteredScreens,
             ),

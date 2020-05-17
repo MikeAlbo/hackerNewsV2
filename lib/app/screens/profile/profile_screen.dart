@@ -71,7 +71,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (BuildContext ctx, AsyncSnapshot<UserPrefs> snapshot) {
             if (!snapshot.hasData) {
               //return PlaceHolderTile();
-              return Text("no data");
+              return Container(
+                constraints: BoxConstraints.expand(),
+              );
             }
             return FadeAnimation(
               duration: Duration(milliseconds: 500),
