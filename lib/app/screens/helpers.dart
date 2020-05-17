@@ -59,8 +59,9 @@ String formatDateByString({ItemModel itemModel}) {
 ///  returns a formatted date, REQUIRES THE JIFFY PKG TO BE INSTALLED
 ///
 ///
-String formatDate({int time}) {
-  int itemTime = secondsToMilliseconds(seconds: time);
+String formatDate({int time, bool convertFromSeconds = true}) {
+  int itemTime =
+      convertFromSeconds ? secondsToMilliseconds(seconds: time) : time;
   int currentTime = DateTime.now().millisecondsSinceEpoch;
   DateTime fromMillSec = DateTime.fromMillisecondsSinceEpoch(itemTime);
   if ((currentTime - itemTime) < Duration(hours: 24).inMilliseconds) {

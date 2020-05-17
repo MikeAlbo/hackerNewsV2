@@ -17,7 +17,6 @@ class SectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("section tile: --> $itemId");
     // init the items bloc
     ItemsBloc itemsBloc = ItemsProvider.of(context);
     // call fetch Id on the ID
@@ -84,8 +83,6 @@ Widget _buildListBody({BuildContext ctx, ItemModel itemModel}) {
 
   final Text dateAndByText = Text(formatDateByString(itemModel: itemModel));
   final String linkText = trimUrl(itemModel.url);
-
-  print("Link Text --> $linkText");
 
   List<Widget> bodyElements = [];
   if (bodyText != null) {

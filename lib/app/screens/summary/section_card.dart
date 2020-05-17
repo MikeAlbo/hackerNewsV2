@@ -19,7 +19,7 @@ class SectionCard extends StatelessWidget {
         .sublist(0, subsetLength)
         .cast<int>();
 
-    print("${getStoriesList(idListName)} : --> $idsSubset");
+    //print("${getStoriesList(idListName)} : --> $idsSubset");
 
     List<Widget> sectionTitleList = List.generate(
         idsSubset.length,

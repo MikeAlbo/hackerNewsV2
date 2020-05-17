@@ -42,7 +42,6 @@ class DbAPi {
       newDb.execute(buildItemTable());
       newDb.execute(buildUserPrefsTable());
       newDb.execute(buildIdsListTable());
-      print("built Ids List table");
       newDb.execute(buildCommentsTable());
     });
   }
@@ -54,7 +53,6 @@ class DbAPi {
     final String tableName = getTableName(DbTables.listOfIds);
     final query = await db.query(tableName,
         columns: null, where: "listName = ?", whereArgs: [name]);
-    print("QUERY: ${query.length}");
     return query.length < 1 ? null : IdsListModel.fromDB(query.first);
   }
 
@@ -62,8 +60,6 @@ class DbAPi {
   Future<int> addListToDb(IdsListModel idsListModel) async {
     await ready;
     final String tableName = getTableName(DbTables.listOfIds);
-    print(
-        "addListToDbL TABLE NAME: $tableName, LIST NAME ${idsListModel.listName}");
     return await db.insert(tableName, idsListModel.toMapForDB(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
@@ -90,9 +86,12 @@ class DbAPi {
   // update UserPrefs table
   Future<int> updateUserPrefs({UserPrefs userPrefs}) async {
     await ready;
+
     final String tableName = getTableName(DbTables.userPrefs);
-    return await db.insert(tableName, userPrefs.mapUserPrefsForDB(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    return await db
+        .insert(tableName, userPrefs.mapUserPrefsForDB(),
+            conflictAlgorithm: ConflictAlgorithm.replace)
+        .catchError((onError) => print(onError));
   }
 
   // get userPrefs
@@ -100,8 +99,8 @@ class DbAPi {
     await ready;
     final String tableName = getTableName(DbTables.userPrefs);
     final query = await db
-        .query(tableName, columns: null, where: "id = ? ", whereArgs: [1]);
-    return UserPrefs.fromDB(query.first); //todo: handle possible error
+        .query(tableName, columns: null, where: "userId = ? ", whereArgs: [1]);
+    return query.length < 1 ? null : UserPrefs.fromDB(query.first);
   }
 
   // drop a table

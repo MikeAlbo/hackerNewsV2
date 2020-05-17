@@ -15,38 +15,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  String title = "Hacker News";
-  bool centerTitle = true;
 
   void selectTab(int newIndex) {
     setState(() {
       _currentIndex = newIndex;
-      updateHeading(newIndex);
     });
-  }
-
-  void updateHeading(int index) {
-    switch (index) {
-      case 0:
-        title = "Hacker News";
-        centerTitle = true;
-        break;
-      case 1:
-        title = "Stories";
-        centerTitle = false;
-
-        break;
-      case 2:
-        title = "Favorites";
-        centerTitle = false;
-
-        break;
-      default:
-        title = "Settings";
-        centerTitle = false;
-
-        break;
-    }
   }
 
   List<Widget> screens = [
@@ -59,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
-    storiesBloc.fetchSingleList(idListName: IdListName.topStories);
+    storiesBloc.fetchSingleList(
+        idListName: IdListName.topStories); //todo: move to Router
+    storiesBloc.initUserPrefs(); //todo: move to Router
     return Scaffold(
       //appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
       //body: buildListView(storiesBloc: storiesBloc),

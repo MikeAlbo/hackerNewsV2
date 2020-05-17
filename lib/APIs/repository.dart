@@ -77,12 +77,10 @@ class _Repository {
     ItemModel item;
     item = await _dbAPi.fetchItem(itemType: ItemType.item, id: id);
     if (item != null) {
-      print("Got item from db");
       return item;
     }
     item = await _hnFireBaseApi.fetchItem(id);
     _dbAPi.addItemToDb(itemType: ItemType.item, itemModel: item);
-    print("going to APi for item");
     return item;
   }
 
@@ -92,16 +90,20 @@ class _Repository {
 
 // init the user prefs
   Future<int> initUserPrefs() async {
-    UserPrefs userPrefs = UserPrefs(
-        showJobStories: true,
-        showNewStories: true,
-        showTopStories: true,
-        showBestStories: true,
-        showAskStories: true,
-        showShowStories: true,
-        lastUpdated: timeNowInMilliseconds(),
-        favorites: []);
-    return _dbAPi.updateUserPrefs(userPrefs: userPrefs);
+    UserPrefs userPrefs = await _dbAPi.fetchUserPrefs();
+    if (userPrefs == null) {
+      UserPrefs userPrefs = UserPrefs(
+          showJobStories: true,
+          showNewStories: true,
+          showTopStories: true,
+          showBestStories: true,
+          showAskStories: true,
+          showShowStories: true,
+          lastUpdated: timeNowInMilliseconds(),
+          favorites: []);
+      return _dbAPi.updateUserPrefs(userPrefs: userPrefs);
+    }
+    return null;
   }
 
 // get userPrefs
@@ -111,7 +113,7 @@ class _Repository {
 
 // update lastUpdated field
   Future<UserPrefs> updateLastUpdatedField(
-      {bool returnUpdatedPrefs = false}) async {
+      {bool returnUpdatedPrefs = true}) async {
     UserPrefs oldUserPrefs = await getUserPrefs();
     UserPrefs newUserPrefs = oldUserPrefs;
     newUserPrefs.lastUpdated = timeNowInMilliseconds();
@@ -144,7 +146,7 @@ class _Repository {
         break;
     }
     await _dbAPi.updateUserPrefs(userPrefs: oldUserPrefs);
-    return returnUpdatedPrefs ? await _dbAPi.fetchUserPrefs() : null;
+    return returnUpdatedPrefs ? await getUserPrefs() : null;
   }
 
   // search favoritesList for ID

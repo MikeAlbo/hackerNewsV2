@@ -34,13 +34,14 @@ class UserPrefs {
         showTopStories = parsedDB['showTopStories'] == 1,
         showBestStories = parsedDB['showBestStories'] == 1,
         showJobStories = parsedDB['showJobStories'] == 1,
-        showShowStories = parsedDB['ShowShowStories'] == 1,
+        showShowStories = parsedDB['showShowStories'] == 1,
         showAskStories = parsedDB['showAskStories'] == 1,
         favorites = jsonDecode(parsedDB['favorites']) ??
             []; // may need to get rid of null check
 
   Map<String, dynamic> mapUserPrefsForDB() {
     return <String, dynamic>{
+      "userId": userId,
       "lastUpdated": lastUpdated,
       "showNewStories": showNewStories ? 1 : 0,
       "showTopStories": showTopStories ? 1 : 0,
