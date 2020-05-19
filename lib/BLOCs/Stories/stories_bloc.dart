@@ -6,6 +6,8 @@ import 'package:hacker_news/Models/ids_list.dart';
 import 'package:hacker_news/Models/user_prefs.dart';
 import 'package:rxdart/rxdart.dart';
 
+//todo: have removed references to singleListOfIds -> stream should be removed
+
 class StoriesBloc {
   final repo = getRepository;
   final PublishSubject<Map<String, IdsListModel>> _allListOfIds =
@@ -26,11 +28,12 @@ class StoriesBloc {
   }
 
   fetchSingleList({IdListName idListName: IdListName.askStories}) async {
+    print("--> list name in bloc ${idListName.toString()}");
     final list = await repo.getListOfIds(idListName);
     _singleListOfIds.sink.add(list);
   }
 
-  addCurrentListName({IdListName idListName}) => _idListName = idListName;
+  setCurrentListName({IdListName idListName}) => _idListName = idListName;
   IdListName get getIdListName => _idListName;
 
   // user prefs
@@ -62,25 +65,27 @@ class StoriesBloc {
     _userPrefs.sink.add(userPrefs);
   }
 
-  List<int> favoritesList = [];
+  List<int> _favoritesList = [];
+
+  List<int> get getFavoritesList => _favoritesList;
 
   void preloadFavoritesList() async {
     UserPrefs userPrefs = await repo.getUserPrefs();
-    favoritesList = userPrefs.favorites.cast<int>();
+    _favoritesList = userPrefs.favorites.cast<int>();
   }
 
   bool isItemAFavorite({int itemId}) {
-    return favoritesList.indexOf(itemId) != -1;
+    return _favoritesList.indexOf(itemId) != -1;
   }
 
   void updateFavoritesList({int itemId}) async {
     if (isItemAFavorite(itemId: itemId)) {
-      favoritesList.remove(itemId);
+      _favoritesList.remove(itemId);
     } else {
-      favoritesList.add(itemId);
+      _favoritesList.add(itemId);
     }
     UserPrefs userPrefs = await repo.getUserPrefs();
-    userPrefs.favorites = favoritesList;
+    userPrefs.favorites = _favoritesList;
     await repo.updateFavorites(userPrefs: userPrefs);
   }
 

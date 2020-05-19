@@ -25,9 +25,11 @@ String trimBodyText(
   if (padDirection == null) {
     return originalText.substring(0, maxLength);
   } else if (padDirection == PadDirection.padRight) {
-    return originalText.substring(0, maxLength).padRight(padLength, padChar);
+    return originalText
+        .substring(0, maxLength - 3)
+        .padRight(maxLength, padChar);
   } else {
-    return originalText.substring(0, maxLength).padLeft(padLength, padChar);
+    return originalText.substring(0, maxLength - 3).padLeft(maxLength, padChar);
   }
 }
 

@@ -13,63 +13,16 @@ class StoriesScreen extends StatefulWidget {
 class _StoriesScreenState extends State<StoriesScreen> {
   @override
   Widget build(BuildContext context) {
-    final StoriesBloc _storiesBloc = StoriesProvider.of(context);
+    StoriesBloc _storiesBloc = StoriesProvider.of(context);
     _storiesBloc.getUserPrefs();
-
-    List<Widget> filterScreens(UserPrefs userPrefs, StoriesBloc storiesBloc) {
-      List<Widget> screens = [];
-      if (userPrefs.showNewStories) {
-        screens.add(StoryTabScreen(
-            storiesBloc: _storiesBloc, idListName: IdListName.newStories));
-      }
-      if (userPrefs.showTopStories) {
-        screens.add(StoryTabScreen(
-            storiesBloc: _storiesBloc, idListName: IdListName.topStories));
-      }
-      if (userPrefs.showAskStories) {
-        screens.add(StoryTabScreen(
-            storiesBloc: _storiesBloc, idListName: IdListName.askStories));
-      }
-      if (userPrefs.showJobStories) {
-        screens.add(StoryTabScreen(
-            storiesBloc: _storiesBloc, idListName: IdListName.jobStories));
-      }
-      if (userPrefs.showShowStories) {
-        screens.add(StoryTabScreen(
-            storiesBloc: _storiesBloc, idListName: IdListName.showStories));
-      }
-      return screens;
-    }
-
-    List<Tab> getTabs(UserPrefs userPrefs) {
-      List<Tab> tabList = [];
-      if (userPrefs.showNewStories) {
-        tabList.add(_buildTab(title: "New"));
-      }
-      if (userPrefs.showTopStories) {
-        tabList.add(_buildTab(title: "Top"));
-      }
-      if (userPrefs.showAskStories) {
-        tabList.add(_buildTab(title: "Ask"));
-      }
-      if (userPrefs.showJobStories) {
-        tabList.add(_buildTab(title: "Job"));
-      }
-      if (userPrefs.showShowStories) {
-        tabList.add(_buildTab(title: "Show"));
-      }
-//  if (userPrefs.showShowStories) {
-//    tabList.add(_buildTab(title: "Show"));
-//  }
-
-      return tabList;
-    }
 
     return StreamBuilder(
       stream: _storiesBloc.userPrefs,
       builder: (BuildContext ctx, AsyncSnapshot<UserPrefs> snapshot) {
         if (!snapshot.hasData) {
-          return Text("No data");
+          return Container(
+            constraints: BoxConstraints.expand(),
+          );
         }
 
         List<Widget> filteredScreens =
@@ -89,6 +42,8 @@ class _StoriesScreenState extends State<StoriesScreen> {
                   indicatorColor: Colors.black87,
                   indicatorWeight: 1.0,
                   tabs: filteredTabs,
+
+                  //onTap: setIndex,
                 )),
             body: TabBarView(
               children: filteredScreens,
@@ -104,4 +59,50 @@ Tab _buildTab({@required String title}) {
   return Tab(
     text: title,
   );
+}
+
+List<Tab> getTabs(UserPrefs userPrefs) {
+  List<Tab> tabList = [];
+  if (userPrefs.showNewStories) {
+    tabList.add(_buildTab(title: "New"));
+  }
+  if (userPrefs.showTopStories) {
+    tabList.add(_buildTab(title: "Top"));
+  }
+  if (userPrefs.showAskStories) {
+    tabList.add(_buildTab(title: "Ask"));
+  }
+  if (userPrefs.showJobStories) {
+    tabList.add(_buildTab(title: "Job"));
+  }
+  if (userPrefs.showShowStories) {
+    tabList.add(_buildTab(title: "Show"));
+  }
+
+  return tabList;
+}
+
+List<Widget> filterScreens(UserPrefs userPrefs, StoriesBloc storiesBloc) {
+  List<Widget> screens = [];
+  if (userPrefs.showNewStories) {
+    screens.add(StoryTabScreen(
+        storiesBloc: storiesBloc, idListName: IdListName.newStories));
+  }
+  if (userPrefs.showTopStories) {
+    screens.add(StoryTabScreen(
+        storiesBloc: storiesBloc, idListName: IdListName.topStories));
+  }
+  if (userPrefs.showAskStories) {
+    screens.add(StoryTabScreen(
+        storiesBloc: storiesBloc, idListName: IdListName.askStories));
+  }
+  if (userPrefs.showJobStories) {
+    screens.add(StoryTabScreen(
+        storiesBloc: storiesBloc, idListName: IdListName.jobStories));
+  }
+  if (userPrefs.showShowStories) {
+    screens.add(StoryTabScreen(
+        storiesBloc: storiesBloc, idListName: IdListName.showStories));
+  }
+  return screens;
 }

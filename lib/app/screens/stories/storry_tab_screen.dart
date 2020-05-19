@@ -1,50 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
-import 'package:hacker_news/app/screens/listBuilders/list_view.dart';
+import 'package:hacker_news/app/screens/listBuilders/list_tile_builder.dart';
+import 'package:hacker_news/app/widgets/fade_animation.dart';
+import 'package:hacker_news/app/widgets/placeholder_tile.dart';
+
+import '../../../Models/ids_list.dart';
+import '../helpers.dart';
+
+//todo: refactor buildListView into this widget
 
 class StoryTabScreen extends StatefulWidget {
   final StoriesBloc storiesBloc;
   final IdListName idListName;
 
   StoryTabScreen({this.storiesBloc, this.idListName});
-
   @override
   _StoryTabScreenState createState() => _StoryTabScreenState();
 }
 
-class _StoryTabScreenState extends State<StoryTabScreen>
-    with TickerProviderStateMixin {
-  AnimationController fadeController;
-  Animation<double> fadeAnimation;
-
+class _StoryTabScreenState extends State<StoryTabScreen> {
   @override
   void initState() {
-    fadeController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    widget.storiesBloc.fetchAllList();
     super.initState();
-
-    fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: fadeController,
-      curve: Curves.easeIn,
-    ));
-    fadeController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.storiesBloc.fetchSingleList(idListName: widget.idListName);
-    widget.storiesBloc.addCurrentListName(idListName: widget.idListName);
-    return FadeTransition(
-      child: buildListView(storiesBloc: widget.storiesBloc),
-      opacity: fadeAnimation,
-    );
-  }
+    return FadeAnimation(
+      duration: Duration(seconds: 1),
+      child: StreamBuilder(
+        stream: widget.storiesBloc.listOfIds,
+        builder: (BuildContext context,
+            AsyncSnapshot<Map<String, IdsListModel>> snapshot) {
+          if (!snapshot.hasData) {
+            return PlaceHolderTile(); //todo: add placeholder
+          }
 
-  @override
-  void dispose() {
-    fadeController.reverse();
-    fadeController.dispose();
-    super.dispose();
+          List<int> _idsList = snapshot
+              .data[getStoriesList(widget.idListName)].storyIdsList
+              .cast<int>();
+
+          return Container(
+            padding: EdgeInsets.only(left: 5.0, right: 5.0),
+            child: ListView.builder(
+                itemCount: _idsList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: <Widget>[
+                      ListTileBuilder(
+                        id: _idsList[index],
+                        idListName: widget.idListName,
+                      ),
+                      insertDivider(isTitle: false),
+                    ],
+                  );
+                }),
+          );
+        },
+      ),
+    );
+    //return buildFakeScreen(widget.idListName);
   }
 }

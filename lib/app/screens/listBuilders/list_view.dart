@@ -19,6 +19,8 @@ Widget buildListView({StoriesBloc storiesBloc}) {
         return PlaceHolderTile(); //todo: add placeholder
       }
 
+      //return buildFakeScreen(idListName);
+
       return Container(
         padding: EdgeInsets.only(left: 5.0, right: 5.0),
         child: ListView.builder(
@@ -26,6 +28,9 @@ Widget buildListView({StoriesBloc storiesBloc}) {
             itemBuilder: (BuildContext context, int index) {
               return Column(
                 children: <Widget>[
+                  ListTile(
+                    title: Text("${snapshot.data.listName}"),
+                  ),
                   ListTileBuilder(
                     id: snapshot.data.storyIdsList[index],
                     idListName: idListName,
@@ -36,5 +41,13 @@ Widget buildListView({StoriesBloc storiesBloc}) {
             }),
       );
     },
+  );
+}
+
+Widget buildFakeScreen(IdListName idListName) {
+  return Container(
+    constraints: BoxConstraints.expand(),
+    color: Colors.yellow,
+    child: Text(idListName.toString()),
   );
 }
