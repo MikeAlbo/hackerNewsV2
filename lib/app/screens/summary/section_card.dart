@@ -44,6 +44,7 @@ class SectionCard extends StatelessWidget {
         ));
 
     return Card(
+      margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: Column(
         children: sectionTitleList,
       ),
