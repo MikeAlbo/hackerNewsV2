@@ -160,9 +160,9 @@ class _Repository {
       {int itemId, bool returnUpdatedPrefs = true}) async {
     UserPrefs oldUserPrefs = await _dbAPi.fetchUserPrefs();
     if (await getIdFromFavoritesList(itemId: itemId)) {
-      oldUserPrefs.favorites.remove(itemId);
-    } else {
       oldUserPrefs.favorites.add(itemId);
+    } else {
+      oldUserPrefs.favorites.remove(itemId);
     }
     await _dbAPi.updateUserPrefs(userPrefs: oldUserPrefs);
     return returnUpdatedPrefs ? await _dbAPi.fetchUserPrefs() : null;

@@ -78,15 +78,10 @@ class StoriesBloc {
     return _favoritesList.indexOf(itemId) != -1;
   }
 
-  void updateFavoritesList({int itemId}) async {
-    if (isItemAFavorite(itemId: itemId)) {
-      _favoritesList.remove(itemId);
-    } else {
-      _favoritesList.add(itemId);
-    }
-    UserPrefs userPrefs = await repo.getUserPrefs();
-    userPrefs.favorites = _favoritesList;
-    await repo.updateFavorites(userPrefs: userPrefs);
+  Future<bool> updateFavoritesList({int itemId}) async {
+    UserPrefs userPrefs = await repo.updateItemInFavorites(itemId: itemId);
+    _favoritesList = userPrefs.favorites.cast<int>();
+    return true;
   }
 
   StoriesBloc() {

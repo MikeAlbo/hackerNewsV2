@@ -18,10 +18,22 @@ class BuildListTile extends StatefulWidget {
 }
 
 class _BuildListTileState extends State<BuildListTile> {
+  bool isSelected;
+
   @override
   Widget build(BuildContext context) {
     StoriesBloc storiesBloc = StoriesProvider.of(context);
-    bool isSelected = storiesBloc.isItemAFavorite(itemId: widget.itemModel.id);
+    if (isSelected == null) {
+      isSelected = storiesBloc.isItemAFavorite(itemId: widget.itemModel.id);
+    }
+
+    void updateIsSelected() {
+      setState(() {
+        storiesBloc.updateFavoritesList(itemId: widget.itemModel.id);
+        isSelected = !isSelected;
+      });
+    }
+
     return ListTile(
       contentPadding: EdgeInsets.all(15.0),
       //isThreeLine: item.url != "" ? true : false,
@@ -34,11 +46,7 @@ class _BuildListTileState extends State<BuildListTile> {
       trailing: IconButton(
         color: isSelected ? Colors.redAccent : Colors.grey[400],
         icon: isSelected ? Icon(Icons.bookmark) : Icon(Icons.bookmark_border),
-        onPressed: () {
-          setState(() {
-            storiesBloc.updateFavoritesList(itemId: widget.itemModel.id);
-          });
-        },
+        onPressed: updateIsSelected,
       ),
     );
   }
