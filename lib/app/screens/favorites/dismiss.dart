@@ -13,9 +13,18 @@ class DismissFavorite extends StatelessWidget {
       onDismissed: onDismiss,
       background: Container(
         color: Colors.red,
-        child: Icon(
-          Icons.delete,
-          color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Icon(
+                Icons.delete,
+                size: 40.0,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
       key: Key("${itemModel.id}"),
