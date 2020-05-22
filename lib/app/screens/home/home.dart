@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_bloc.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/app/screens/favorites/favorites_screen.dart';
 import 'package:hacker_news/app/screens/profile/profile_screen.dart';
@@ -32,7 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final StoriesBloc storiesBloc = StoriesProvider.of(context);
     storiesBloc.initUserPrefs(); //todo: move to Router
-    storiesBloc.preloadFavoritesList(); //todo: move to router
+    final FavoritesBloc favoritesBloc = FavoritesProvider.of(context);
+    favoritesBloc.preloadUserPrefs; //todo: move to router
     return Scaffold(
       //appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
       //body: buildListView(storiesBloc: storiesBloc),

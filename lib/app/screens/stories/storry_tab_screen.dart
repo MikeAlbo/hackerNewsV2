@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/APIs/api_helpers.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_bloc.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
 import 'package:hacker_news/app/screens/listBuilders/list_tile_builder.dart';
 import 'package:hacker_news/app/widgets/fade_animation.dart';
@@ -28,6 +30,7 @@ class _StoryTabScreenState extends State<StoryTabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FavoritesBloc favoritesBloc = FavoritesProvider.of(context);
     return FadeAnimation(
       duration: Duration(seconds: 1),
       child: StreamBuilder(
@@ -52,6 +55,7 @@ class _StoryTabScreenState extends State<StoryTabScreen> {
                       ListTileBuilder(
                         id: _idsList[index],
                         idListName: widget.idListName,
+                        favoritesBloc: favoritesBloc,
                       ),
                       insertDivider(isTitle: false),
                     ],

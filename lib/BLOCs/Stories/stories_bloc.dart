@@ -53,39 +53,10 @@ class StoriesBloc {
     _userPrefs.sink.add(userPrefs);
   }
 
-  // update favoritesList
-//  updateFavoritesList({int itemId}) async {
-//    UserPrefs userPrefs = await repo.updateItemInFavorites(itemId: itemId);
-//    _userPrefs.sink.add(userPrefs);
-//  }
-
   // update lastUpdated -- method called when story list are refreshed
   updateLastUpdated() async {
     UserPrefs userPrefs = await repo.updateLastUpdatedField();
     _userPrefs.sink.add(userPrefs);
-  }
-
-  List<int> _favoritesList = [];
-
-  List<int> get getFavoritesList => _favoritesList;
-
-  void preloadFavoritesList() async {
-    UserPrefs userPrefs = await repo.getUserPrefs();
-    _favoritesList = userPrefs.favorites.cast<int>();
-  }
-
-  bool isItemAFavorite({int itemId}) {
-    return _favoritesList.indexOf(itemId) != -1;
-  }
-
-  Future<bool> updateFavoritesList({int itemId}) async {
-    UserPrefs userPrefs = await repo.updateItemInFavorites(itemId: itemId);
-    _favoritesList = userPrefs.favorites.cast<int>();
-    return true;
-  }
-
-  StoriesBloc() {
-    //preloadFavoritesList();
   }
 
   dispose() {
