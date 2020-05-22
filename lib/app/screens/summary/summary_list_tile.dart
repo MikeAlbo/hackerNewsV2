@@ -46,7 +46,7 @@ class _SummaryListTileState extends State<SummaryListTile> {
             widget.itemModel.title,
             overflow: TextOverflow.visible,
           ),
-          subtitle: _buildListBody(ctx: context, itemModel: widget.itemModel),
+          subtitle: _buildListBody(itemModel: widget.itemModel),
         ),
         insertDivider(isTitle: false),
       ],
@@ -54,7 +54,7 @@ class _SummaryListTileState extends State<SummaryListTile> {
   }
 }
 
-Widget _buildListBody({BuildContext ctx, ItemModel itemModel}) {
+Widget _buildListBody({ItemModel itemModel}) {
   final String bodyText = itemModel.text == ""
       ? null
       : trimBodyText(
