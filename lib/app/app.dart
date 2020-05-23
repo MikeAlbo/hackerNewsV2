@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
 import 'package:hacker_news/BLOCs/Stories/stories_provider.dart';
-import 'package:hacker_news/app/screens/home/home.dart';
+import 'package:hacker_news/app/routes.dart';
 
 class HackerNewsApp extends StatelessWidget {
   @override
@@ -11,10 +11,23 @@ class HackerNewsApp extends StatelessWidget {
       child: StoriesProvider(
         child: ItemsProvider(
           child: MaterialApp(
-            home: HomeScreen(),
+            title: "Hacker News",
+            initialRoute: "/",
+            onGenerateRoute: _routes,
           ),
         ),
       ),
     );
+  }
+}
+
+Route _routes(RouteSettings routeSettings) {
+  print("---->>> route name: ${routeSettings.name}"); //todo: remove print!
+  switch (routeSettings.name) {
+    case "/":
+      return getHomeScreenRoute(settings: routeSettings);
+      break;
+    default:
+      return getHomeScreenRoute(settings: routeSettings);
   }
 }
