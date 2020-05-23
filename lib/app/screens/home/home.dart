@@ -29,10 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-//    final StoriesBloc storiesBloc = StoriesProvider.of(context);
-//    storiesBloc.initUserPrefs(); //todo: move to Router
-//    final FavoritesBloc favoritesBloc = FavoritesProvider.of(context);
-//    favoritesBloc.preloadUserPrefs; //todo: move to router
     return Scaffold(
       //appBar: buildHomeAppBar(title: title, centerTitle: centerTitle),
       //body: buildListView(storiesBloc: storiesBloc),
