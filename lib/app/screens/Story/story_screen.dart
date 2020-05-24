@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/Story/layout_view_screen.dart';
 import 'package:hacker_news/app/screens/Story/web_view_screen.dart';
@@ -28,15 +27,12 @@ class StoryViewScreen extends StatelessWidget {
   StoryViewScreen({this.itemModel});
   @override
   Widget build(BuildContext context) {
-    final FavoritesBloc favoritesBloc = FavoritesProvider.of(context);
     return itemModel.url == ""
         ? LayoutViewScreen(
             itemModel: itemModel,
-            favoritesBloc: favoritesBloc,
           )
         : WebViewScreen(
             itemModel: itemModel,
-            favoritesBloc: favoritesBloc,
           );
   }
 }
