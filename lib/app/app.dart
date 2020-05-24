@@ -27,6 +27,9 @@ Route _routes(RouteSettings routeSettings) {
     case "/":
       return getHomeScreenRoute(settings: routeSettings);
       break;
+    case "/story":
+      return getStoryScreenRoute(settings: routeSettings);
+      break;
     default:
       return getHomeScreenRoute(settings: routeSettings);
   }

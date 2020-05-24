@@ -17,6 +17,7 @@ buildAppBar(
     centerTitle: centerTitle ? true : false,
     backgroundColor: Colors.white,
     brightness: Brightness.light,
+    iconTheme: IconThemeData(color: Colors.black87),
     bottom: bottom,
   );
 }
