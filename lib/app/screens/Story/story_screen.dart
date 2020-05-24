@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/Story/layout_view_screen.dart';
 import 'package:hacker_news/app/screens/Story/web_view_screen.dart';
@@ -18,17 +19,24 @@ import 'package:hacker_news/app/screens/Story/web_view_screen.dart';
 * ability to open web page in browser
 * */
 
+//todo: handle favorites interaction
+//todo: handle share interaction
+// todo: reset state on list items when navigating back to show favorites updated
+
 class StoryViewScreen extends StatelessWidget {
   final ItemModel itemModel;
   StoryViewScreen({this.itemModel});
   @override
   Widget build(BuildContext context) {
+    final FavoritesBloc favoritesBloc = FavoritesProvider.of(context);
     return itemModel.url == ""
         ? LayoutViewScreen(
             itemModel: itemModel,
+            favoritesBloc: favoritesBloc,
           )
         : WebViewScreen(
             itemModel: itemModel,
+            favoritesBloc: favoritesBloc,
           );
   }
 }

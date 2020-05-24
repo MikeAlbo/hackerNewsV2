@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 buildAppBar(
     {@required String title,
     @required bool centerTitle,
-    PreferredSizeWidget bottom}) {
+    PreferredSizeWidget bottom,
+    List<Widget> actions}) {
   return AppBar(
     elevation: 1.0,
     title: Text(
@@ -19,5 +20,6 @@ buildAppBar(
     brightness: Brightness.light,
     iconTheme: IconThemeData(color: Colors.black87),
     bottom: bottom,
+    actions: actions,
   );
 }

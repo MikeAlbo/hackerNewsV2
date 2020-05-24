@@ -51,6 +51,9 @@ class FavListTile extends StatelessWidget {
     return Column(
       children: <Widget>[
         ListTile(
+          onTap: () {
+            Navigator.pushNamed(context, "/story", arguments: itemModel);
+          },
           contentPadding: EdgeInsets.all(10.0),
           leading: Column(
             mainAxisAlignment: MainAxisAlignment.center,

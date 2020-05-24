@@ -43,8 +43,13 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
             ItemModel item = itemSnapshot.data;
             return ListTile(
               onTap: () {
-                print("tile tapped");
-                Navigator.pushNamed(context, "/story", arguments: item);
+                Navigator.pushNamed(context, "/story", arguments: item)
+                    .then((value) {
+                  setState(() {
+                    isSelected =
+                        widget.favoritesBloc.doesIdExistInFavorites(widget.id);
+                  });
+                });
               },
               contentPadding: EdgeInsets.all(15.0),
               //isThreeLine: item.url != "" ? true : false,

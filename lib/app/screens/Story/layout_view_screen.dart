@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hacker_news/BLOCs/Favorites/favorites_bloc.dart';
 import 'package:hacker_news/Models/item.dart';
 
 class LayoutViewScreen extends StatefulWidget {
   final ItemModel itemModel;
-  LayoutViewScreen({this.itemModel});
+  final FavoritesBloc favoritesBloc;
+
+  LayoutViewScreen({this.itemModel, this.favoritesBloc});
   @override
   _LayoutViewScreenState createState() => _LayoutViewScreenState();
 }

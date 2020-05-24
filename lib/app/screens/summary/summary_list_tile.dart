@@ -26,6 +26,9 @@ class _SummaryListTileState extends State<SummaryListTile> {
     return Column(
       children: <Widget>[
         ListTile(
+          onTap: () {
+            Navigator.pushNamed(context, "/story", arguments: widget.itemModel);
+          },
           contentPadding: EdgeInsets.all(12.0),
           leading: Icon(
             chooseArticleIcon(idListName: widget.idListName),
