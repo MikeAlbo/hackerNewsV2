@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/Models/item.dart';
+import 'package:share/share.dart';
 
 import 'layout_view_screen.dart';
 
@@ -21,6 +22,7 @@ Widget buildBottomAppBar(
             favorite: isFavorite),
         buildIconButton(
           icon: Icons.share,
+          action: () => shareStory(context: context, itemModel: itemModel),
         ),
         buildIconButton(
             icon: Icons.question_answer,
@@ -46,4 +48,15 @@ navigateToCommentsPage({BuildContext context, ItemModel itemModel}) {
       itemModel: itemModel,
     );
   }));
+}
+
+shareStory({BuildContext context, ItemModel itemModel}) {
+  String link = itemModel.url == ""
+      ? "https://news.ycombinator.com/item?id=${itemModel.id}"
+      : itemModel.url;
+  String subject = "${itemModel.title} -- from the HN App";
+  final RenderBox box = context.findRenderObject();
+  return Share.share(link,
+      subject: subject,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
 }
