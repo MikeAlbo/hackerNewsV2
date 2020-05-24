@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'layout_view_screen.dart';
 
@@ -15,7 +16,9 @@ Widget buildBottomAppBar(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        buildIconButton(icon: Icons.open_in_new, action: () {}),
+        buildIconButton(
+            icon: Icons.open_in_new,
+            action: () => launchUrl(itemModel: itemModel)),
         buildIconButton(
             icon: isFavorite ? Icons.bookmark : Icons.bookmark_border,
             action: () => updateFavorites(),
@@ -59,4 +62,15 @@ shareStory({BuildContext context, ItemModel itemModel}) {
   return Share.share(link,
       subject: subject,
       sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+}
+
+launchUrl({ItemModel itemModel}) async {
+  String link = itemModel.url == ""
+      ? "https://news.ycombinator.com/item?id=${itemModel.id}"
+      : itemModel.url;
+  if (await canLaunch(link)) {
+    await launch(link, enableJavaScript: true);
+  } else {
+    throw 'Could not launch $link';
+  }
 }
