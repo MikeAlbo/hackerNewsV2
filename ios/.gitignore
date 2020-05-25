@@ -15,7 +15,12 @@ profile
 xcuserdata
 **/.generated/
 Flutter/App.framework
+Flutter/App 2.framework
+Flutter/App 3.framework
 Flutter/Flutter.framework
+Flutter/Flutter 2.framework
+Flutter/Flutter 3.framework
+Flutter/Flutter 4.framework
 Flutter/Flutter.podspec
 Flutter/Generated.xcconfig
 Flutter/app.flx
