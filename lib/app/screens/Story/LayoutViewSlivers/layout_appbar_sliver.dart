@@ -8,6 +8,7 @@ class LayoutAppBarSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      brightness: Brightness.light,
       title: Text(
         "Hacker News  |  $title",
         style: TextStyle(color: Colors.black87),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/Models/item.dart';
+import 'package:hacker_news/app/screens/Story/Comments/comments_list_builder.dart';
+import 'package:hacker_news/app/screens/Story/LayoutViewSlivers/layout_body_sliver.dart';
 import 'package:hacker_news/app/screens/Story/bottom_app_bar.dart';
 
 import 'LayoutViewSlivers/layout_appbar_sliver.dart';
@@ -17,26 +19,31 @@ class LayoutViewScreen extends StatelessWidget {
         title: itemModel.type,
       ),
       LayoutTitleSliver(title: itemModel.title),
-//      LayoutBodySliver(
-//        itemModel: itemModel,
-//      ),
     ];
 
-    List<Widget> fakeList = List.generate(
-        20,
-        (index) => Container(
-              color: index % 2 == 0 ? Colors.red : Colors.blue,
-            ));
+    SliverChildListDelegate sliverChildListDelegate = SliverChildListDelegate([
+      LayoutBodySliver(
+        itemModel: itemModel,
+      ),
+      CommentsListBuilder(
+        itemModel: itemModel,
+      )
+    ]);
 
-    SliverChildListDelegate sliverChildListDelegate =
-        SliverChildListDelegate(fakeList);
+//    SliverFixedExtentList sliverFixedExtentList = SliverFixedExtentList(
+//      itemExtent: 1000.0,
+//      delegate: sliverChildListDelegate,
+//    );
+//
+//    SliverFillViewport sliverFillViewport = SliverFillViewport(
+//      delegate: sliverChildListDelegate,
+//    );
 
-    SliverFixedExtentList sliverFixedExtentList = SliverFixedExtentList(
-      itemExtent: 150.0,
+    SliverList sliverList = SliverList(
       delegate: sliverChildListDelegate,
     );
 
-    slivers.add(sliverFixedExtentList);
+    slivers.add(sliverList);
 
     return Scaffold(
       bottomNavigationBar: BuildBottomAppBar(

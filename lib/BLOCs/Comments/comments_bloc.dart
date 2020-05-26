@@ -15,6 +15,23 @@ class CommentsBloc {
   Stream<Map<int, Future<ItemModel>>> get commentsOutput =>
       _commentsOutput.stream;
 
+  CommentsBloc() {
+    _commentFetcher.stream
+        .transform(_commentsTransformer())
+        .pipe(_commentsOutput);
+  }
+
+  _commentsTransformer() {
+    return ScanStreamTransformer<int, Map<int, Future<ItemModel>>>(
+        (cache, int id, index) {
+      print("comment id: $id");
+      cache[id] = _repo.getItem(id);
+      cache[id].then((ItemModel item) {
+        item.kids.forEach((kidId) => fetchComment(kidId));
+      });
+      return cache;
+    }, <int, Future<ItemModel>>{});
+  }
   /*
   * recursive comments call
   * limit the number of comments fetched
