@@ -32,7 +32,7 @@ class LayoutBodySliver extends StatelessWidget {
                 ? Text("")
                 : _buildBodyText(itemModel.text, context),
             Container(
-              child: itemModel.kids.length < 1
+              child: itemModel.kids.length < 1 || itemModel.text == ""
                   ? Text("")
                   : insertDivider(isTitle: true),
               width: 300.0,
@@ -43,7 +43,7 @@ class LayoutBodySliver extends StatelessWidget {
             Container(
               child: itemModel.kids.length < 1
                   ? Text("")
-                  : insertDivider(isTitle: true),
+                  : insertDivider(isTitle: false),
               width: 300.0,
             ),
           ],
@@ -98,7 +98,8 @@ Widget _buildCommentHeader(ItemModel itemModel) {
   if (kidsLength > 5) {
     output = "Showing 5 of $kidsLength comments";
   } else {
-    output = "Showing all $kidsLength comment${kidsLength == 1 ? "s" : ""}";
+    output =
+        "Showing ${kidsLength != 1 ? "all" : "the"} $kidsLength comment${kidsLength != 1 ? "s" : ""}";
   }
   return kidsLength < 1
       ? Text("")
