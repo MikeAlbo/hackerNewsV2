@@ -29,6 +29,7 @@ class CommentsTile extends StatelessWidget {
           ListTile(
             contentPadding: EdgeInsets.only(left: depth * 10.0, right: 16.0),
             //leading: _buildLeadingIcon(),
+            leading: Text("$depth"),
             title: item.text == ""
                 ? Text("")
                 : Html(

@@ -26,6 +26,7 @@ class LayoutViewScreen extends StatelessWidget {
         itemModel: itemModel,
       ),
       CommentsListBuilder(
+        numberOfComments: NumberOfComments.subset,
         itemModel: itemModel,
       )
     ]);

@@ -38,6 +38,7 @@ class LayoutBodySliver extends StatelessWidget {
               width: 300.0,
             ),
             _buildCommentHeader(
+              context,
               itemModel,
             ),
             Container(
@@ -92,7 +93,7 @@ _buildBodyText(String text, BuildContext context) {
   );
 }
 
-Widget _buildCommentHeader(ItemModel itemModel) {
+Widget _buildCommentHeader(BuildContext context, ItemModel itemModel) {
   String output;
   int kidsLength = itemModel.kids.length;
   if (kidsLength > 5) {
@@ -119,7 +120,10 @@ Widget _buildCommentHeader(ItemModel itemModel) {
                       elevation: 1.0,
                       textColor: Colors.blue,
                       child: Text("Show All Comments"),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/comments",
+                            arguments: itemModel);
+                      },
                     ), //todo: seriously need to improve style lol
             ],
           ),

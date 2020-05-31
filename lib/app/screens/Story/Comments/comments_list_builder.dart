@@ -3,9 +3,11 @@ import 'package:hacker_news/BLOCs/Comments/comments_bloc.dart';
 import 'package:hacker_news/BLOCs/Comments/comments_provider.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/Story/Comments/comments_tile.dart';
+import 'package:hacker_news/app/widgets/placeholder_tile.dart';
 
 enum NumberOfComments { subset, all }
 
+/// Builds a list of the story's comments recursively
 class CommentsListBuilder extends StatelessWidget {
   final NumberOfComments numberOfComments;
   final ItemModel itemModel;
@@ -14,7 +16,9 @@ class CommentsListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<int> idsToFetch = reduceKidsToLimit(itemModel);
+    List<int> idsToFetch = numberOfComments == NumberOfComments.subset
+        ? reduceKidsToLimit(itemModel)
+        : itemModel.kids.cast<int>();
     CommentsBloc commentsBloc = CommentsProvider.of(context);
     if (idsToFetch != null) {
       idsToFetch.forEach((id) => commentsBloc.fetchComment(id));
@@ -74,43 +78,22 @@ _buildFutureBuildCommentList(
     future: itemFuture,
     builder: (BuildContext ctx, AsyncSnapshot<ItemModel> itemSnapshot) {
       if (!itemSnapshot.hasData) {
-        //return PlaceHolderTile();
-        return Center(
-          child: Text(
-              "comment not loaded"), //todo: remove and replace with placeholder
-        );
+        return PlaceHolderTile();
       }
 
+      final children = <CommentsTile>[];
+      children.add(CommentsTile(
+        itemId: itemSnapshot.data.id,
+        itemMap: itemMap,
+        depth: 1,
+      ));
+
       return Column(
-        children: buildList(item: itemSnapshot.data, itemMap: itemMap),
+        //children: buildList(item: itemSnapshot.data, itemMap: itemMap),
+        children: children,
       );
     },
   );
-}
-
-List<Widget> buildList(
-    {@required ItemModel item, @required Map<int, Future<ItemModel>> itemMap}) {
-  final children = <CommentsTile>[];
-  children.add(CommentsTile(
-    itemId: item.id,
-    itemMap: itemMap,
-    depth: 1,
-  ));
-//  final commentsList = item.kids.map((kidId) {
-//    return CommentsTile(
-//      itemId: kidId,
-//      itemMap: itemMap,
-//      depth: 2,
-//    );
-//  }).toList();
-
-//  children.addAll(commentsList);
-
-  return children;
-
-//  return ListView(
-//    children: children,
-//  );
 }
 
 // return a subset list of the story's comments (kids property)

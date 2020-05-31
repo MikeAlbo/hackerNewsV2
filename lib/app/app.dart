@@ -33,6 +33,9 @@ Route _routes(RouteSettings routeSettings) {
     case "/story":
       return getStoryScreenRoute(settings: routeSettings);
       break;
+    case "/comments":
+      return getCommentScreenRoute(settings: routeSettings);
+      break;
     default:
       return getHomeScreenRoute(settings: routeSettings);
   }
