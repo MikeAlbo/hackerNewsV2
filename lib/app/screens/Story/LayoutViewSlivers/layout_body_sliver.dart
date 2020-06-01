@@ -56,7 +56,7 @@ _buildSubTitle(ItemModel itemModel) {
         children: [
           Text(
             "by : ${itemModel.by} ",
-            style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
           ),
           Text(
             " | ",
@@ -64,7 +64,7 @@ _buildSubTitle(ItemModel itemModel) {
           ),
           Text(
             " ${formatDate(time: itemModel.time)} ",
-            style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
           ),
           itemModel.url == ""
               ? Text("")
@@ -79,7 +79,7 @@ _buildSubTitle(ItemModel itemModel) {
                   child: Text(
                     "${trimUrl(itemModel.url)} ",
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 18.0,
                       color: Colors.blue[400],
                       //decoration: TextDecoration.underline,
                     ),
@@ -100,7 +100,7 @@ _buildBodyText(String text, BuildContext context) {
         text: parse(text).body.text,
         style: TextStyle(
           color: Colors.black87,
-          fontSize: 18.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.w400,
           height: 2,
         ),

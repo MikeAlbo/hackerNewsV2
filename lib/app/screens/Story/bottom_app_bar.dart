@@ -87,7 +87,7 @@ class _BuildBottomAppBarState extends State<BuildBottomAppBar> {
     }
 
     return BottomAppBar(
-      color: Colors.grey[100],
+      color: Colors.grey[800],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -119,7 +119,11 @@ IconButton buildIconButton(
     bool favorite = false,
     bool noUrl = false}) {
   return IconButton(
-    icon: Icon(icon),
+    padding: EdgeInsets.all(0.0),
+    icon: Icon(
+      icon,
+      color: Colors.grey[200],
+    ),
     onPressed: noUrl ? null : action,
     color: favorite ? Colors.redAccent : Colors.grey[600],
   );

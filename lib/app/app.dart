@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hacker_news/BLOCs/Comments/comments_provider.dart';
 import 'package:hacker_news/BLOCs/Favorites/favorites_provider.dart';
 import 'package:hacker_news/BLOCs/Items/items_provider.dart';
@@ -13,6 +14,11 @@ class HackerNewsApp extends StatelessWidget {
         child: StoriesProvider(
           child: ItemsProvider(
             child: MaterialApp(
+              theme: ThemeData(
+                textTheme: GoogleFonts.rokkittTextTheme(
+                  Theme.of(context).textTheme,
+                ),
+              ),
               title: "Hacker News",
               initialRoute: "/",
               onGenerateRoute: _routes,

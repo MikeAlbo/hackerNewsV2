@@ -36,15 +36,14 @@ class _LayoutTitleSliverState extends State<LayoutTitleSliver> {
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
-      floating: true,
-      pinned: true,
+      floating: false,
+      pinned: false,
       delegate: _SliverPersistentHeaderDelegate(
         minHeight: titleHeight + 50.0,
         maxHeight: titleHeight + 50.0,
         child: Card(
           margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-          elevation: 1.0,
-          shadowColor: Colors.blueAccent,
+          elevation: 0.0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
           color: Colors.white,
@@ -55,7 +54,7 @@ class _LayoutTitleSliverState extends State<LayoutTitleSliver> {
                 //todo: implement selectable text
                 widget.title,
                 key: _titleTextKey,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline4,
                 //style: TextStyle(fontSize: 30.0), //todo -- scale text on scroll
                 textAlign: TextAlign.start,
                 //overflow: TextOverflow.ellipsis,

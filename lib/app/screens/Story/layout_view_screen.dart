@@ -1,35 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/Story/Comments/comments_list_builder.dart';
 import 'package:hacker_news/app/screens/Story/LayoutViewSlivers/layout_body_sliver.dart';
 import 'package:hacker_news/app/screens/Story/bottom_app_bar.dart';
+import 'package:hacker_news/app/widgets/fade_animation.dart';
 
 import 'LayoutViewSlivers/layout_appbar_sliver.dart';
 import 'LayoutViewSlivers/layout_title_sliver.dart';
 
-class LayoutViewScreen extends StatelessWidget {
+class LayoutViewScreen extends StatefulWidget {
   final ItemModel itemModel;
 
   LayoutViewScreen({this.itemModel});
 
   @override
+  _LayoutViewScreenState createState() => _LayoutViewScreenState();
+}
+
+class _LayoutViewScreenState extends State<LayoutViewScreen> {
+  ScrollController scrollController;
+
+  String title;
+  bool isScrollingDown = false;
+  bool showBottomAppBar = true;
+
+  void _showAppBar() {
+    setState(() {
+      showBottomAppBar = true;
+      SystemChrome.setEnabledSystemUIOverlays(
+          [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    });
+  }
+
+  void _hideAppBar() {
+    setState(() {
+      showBottomAppBar = false;
+      SystemChrome.setEnabledSystemUIOverlays([]);
+    });
+  }
+
+  /*
+  * if scroll direction is reverse
+  *   if reversedScroll var is false
+  *     reversedScroll var = true
+  *     showAppBar var is false
+  *     hideAppBar() --> hides the bottom app bar, updates system icons, updates title
+  * if scroll direction is forward
+  *   reversedScroll var = false
+  *   shwAppBar var is true
+  *   showAppBar() --> shows the bottom app bar, updates system icon, updates title*/
+
+  _scrollListener() {
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (!isScrollingDown) {
+        isScrollingDown = true;
+        //showBottomAppBar = false;
+        _hideAppBar();
+
+        print("hide app bar called");
+      }
+    }
+
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (isScrollingDown) {
+        isScrollingDown = false;
+        //showBottomAppBar = true;
+        _showAppBar();
+        print("show app bar called ");
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+    title = title = "Hacker News | ${widget.itemModel.type}";
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> slivers = [
       LayoutAppBarSliver(
-        title: itemModel.type,
+        title: title,
+        scrollController: scrollController,
       ),
       LayoutTitleSliver(
-        title: itemModel.title,
+        title: widget.itemModel.title,
       ),
     ];
 
     SliverChildListDelegate sliverChildListDelegate = SliverChildListDelegate([
       LayoutBodySliver(
-        itemModel: itemModel,
+        itemModel: widget.itemModel,
       ),
       CommentsListBuilder(
         numberOfComments: NumberOfComments.subset,
-        itemModel: itemModel,
+        itemModel: widget.itemModel,
       )
     ]);
 
@@ -49,18 +129,41 @@ class LayoutViewScreen extends StatelessWidget {
     slivers.add(sliverList);
 
     return Scaffold(
-      bottomNavigationBar: BuildBottomAppBar(
-        itemModel: itemModel,
-        viewMode: ViewMode.commentView,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      backgroundColor: Colors.white,
+      bottomNavigationBar: AnimatedCrossFade(
+        firstChild: BuildBottomAppBar(
+          itemModel: widget.itemModel,
+          viewMode: ViewMode.commentView,
+        ),
+        secondChild: blankWidget(context),
+        duration: Duration(milliseconds: 300),
+        firstCurve: Curves.fastOutSlowIn,
+        secondCurve: Curves.fastOutSlowIn,
+        crossFadeState: showBottomAppBar
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
       ),
-      body: CustomScrollView(
-        physics: ClampingScrollPhysics(),
-        slivers: slivers,
+      body: FadeAnimation(
+        duration: Duration(milliseconds: 500),
+        child: CustomScrollView(
+          controller: scrollController,
+          physics: ClampingScrollPhysics(),
+          slivers: slivers,
+        ),
       ),
     );
   }
 }
 
+Widget blankWidget(BuildContext context) {
+  return Container(
+    color: Colors.transparent,
+    height: 00.0,
+    width: MediaQuery.of(context).size.width,
+  );
+}
 /*
 *
 * getter should add a list of ids to a stream
