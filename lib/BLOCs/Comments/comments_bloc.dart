@@ -24,7 +24,7 @@ class CommentsBloc {
   _commentsTransformer() {
     return ScanStreamTransformer<int, Map<int, Future<ItemModel>>>(
         (cache, int id, index) {
-      print("comment id: $id");
+      // print("comment id: $id");
       cache[id] = _repo.getItem(id);
       cache[id].then((ItemModel item) {
         item.kids.forEach((kidId) => fetchComment(kidId));

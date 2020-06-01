@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/helpers.dart';
+import 'package:html/parser.dart';
 
 class LayoutBodySliver extends StatelessWidget {
   final ItemModel itemModel;
@@ -17,24 +17,14 @@ class LayoutBodySliver extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: itemModel.kids.length < 1
-                  ? Text("")
-                  : Text(trimUrl(itemModel.url)),
-            ),
             _buildSubTitle(itemModel),
-            Container(
-              child: insertDivider(isTitle: false),
-              width: 300.0,
-            ),
             itemModel.text == ""
                 ? Text("")
                 : _buildBodyText(itemModel.text, context),
             Container(
               child: itemModel.kids.length < 1 || itemModel.text == ""
                   ? Text("")
-                  : insertDivider(isTitle: true),
+                  : insertDivider(isTitle: false),
               width: 300.0,
             ),
             _buildCommentHeader(
@@ -56,39 +46,65 @@ class LayoutBodySliver extends StatelessWidget {
 
 _buildSubTitle(ItemModel itemModel) {
   return Container(
-    margin: EdgeInsets.only(bottom: 15.0),
+    margin: EdgeInsets.only(bottom: 15.0, top: 50.0),
+    padding: EdgeInsets.only(left: 15.0, right: 15.0),
     // color: Colors.red,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          "by : ${itemModel.by}",
-          style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
-        ),
-        Text(
-          "|",
-          style: TextStyle(fontSize: 20.0, color: Colors.grey[600]),
-        ),
-        Text(
-          formatDate(time: itemModel.time),
-          style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
-        ),
-      ],
+    child: FittedBox(
+      fit: BoxFit.fitWidth,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            "by : ${itemModel.by} ",
+            style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
+          ),
+          Text(
+            " | ",
+            style: TextStyle(fontSize: 20.0, color: Colors.grey[600]),
+          ),
+          Text(
+            " ${formatDate(time: itemModel.time)} ",
+            style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
+          ),
+          itemModel.url == ""
+              ? Text("")
+              : Text(
+                  " | ",
+                  style: TextStyle(fontSize: 20.0, color: Colors.grey[600]),
+                ),
+          itemModel.url == ""
+              ? Text("")
+              : FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    "${trimUrl(itemModel.url)} ",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.blue[400],
+                      //decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+        ],
+      ),
     ),
   );
 }
 
 _buildBodyText(String text, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.all(12.0),
-//    child: Text(
-//      text,
-//      style: TextStyle(height: 1.5, fontSize: 16.0),
-//      textAlign: TextAlign.center,
-//      softWrap: true,
-//    ),
-    child: Html(
-      data: text,
+    padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+    //child: Text(renderHtmlBodyText(text)),
+    child: SelectableText.rich(
+      TextSpan(
+        text: parse(text).body.text,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 18.0,
+          fontWeight: FontWeight.w400,
+          height: 2,
+        ),
+      ),
     ),
   );
 }
@@ -106,20 +122,18 @@ Widget _buildCommentHeader(BuildContext context, ItemModel itemModel) {
       ? Text("")
       : Padding(
           padding: EdgeInsets.all(15.0),
-          child: Column(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 output,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w200),
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400),
               ),
               kidsLength <= 5
                   ? Text("")
-                  : MaterialButton(
-                      color: Colors.grey[200],
-                      elevation: 1.0,
-                      textColor: Colors.blue,
-                      child: Text("Show All Comments"),
+                  : FlatButton(
+                      textColor: Colors.blueAccent[200],
+                      child: Text("(Show All Comments)"),
                       onPressed: () {
                         Navigator.pushNamed(context, "/comments",
                             arguments: itemModel);

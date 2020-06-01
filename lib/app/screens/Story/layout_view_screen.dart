@@ -18,7 +18,9 @@ class LayoutViewScreen extends StatelessWidget {
       LayoutAppBarSliver(
         title: itemModel.type,
       ),
-      LayoutTitleSliver(title: itemModel.title),
+      LayoutTitleSliver(
+        title: itemModel.title,
+      ),
     ];
 
     SliverChildListDelegate sliverChildListDelegate = SliverChildListDelegate([
@@ -52,6 +54,7 @@ class LayoutViewScreen extends StatelessWidget {
         viewMode: ViewMode.commentView,
       ),
       body: CustomScrollView(
+        physics: ClampingScrollPhysics(),
         slivers: slivers,
       ),
     );

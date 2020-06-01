@@ -2,36 +2,68 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-class LayoutTitleSliver extends StatelessWidget {
+class LayoutTitleSliver extends StatefulWidget {
   final String title;
   LayoutTitleSliver({this.title});
 
   @override
+  _LayoutTitleSliverState createState() => _LayoutTitleSliverState();
+}
+
+class _LayoutTitleSliverState extends State<LayoutTitleSliver> {
+  GlobalKey _titleTextKey = GlobalKey();
+
+  double titleHeight = 200;
+
+  _getHeight() {
+    final RenderBox textRenderBox =
+        _titleTextKey.currentContext.findRenderObject();
+    final textSize = textRenderBox.size;
+    print("text height: ${textSize.height}");
+    setState(() {
+      titleHeight = textSize.height;
+    });
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getHeight();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
+      floating: true,
       pinned: true,
       delegate: _SliverPersistentHeaderDelegate(
-          minHeight: 100.0,
-          maxHeight: 200.0,
-          child: Container(
-            padding: EdgeInsets.only(top: 40.0),
-            color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      title,
-                      //style: TextStyle(fontSize: 30.0), //todo -- scale text on scroll
-                      textAlign: TextAlign.center,
-                      //overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ],
+        minHeight: titleHeight + 50.0,
+        maxHeight: titleHeight + 50.0,
+        child: Card(
+          margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          elevation: 1.0,
+          shadowColor: Colors.blueAccent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(25.0, 0.0, 15.0, 0.0),
+            child: Center(
+              child: SelectableText(
+                //todo: implement selectable text
+                widget.title,
+                key: _titleTextKey,
+                style: Theme.of(context).textTheme.headline5,
+                //style: TextStyle(fontSize: 30.0), //todo -- scale text on scroll
+                textAlign: TextAlign.start,
+                //overflow: TextOverflow.ellipsis,
+              ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
