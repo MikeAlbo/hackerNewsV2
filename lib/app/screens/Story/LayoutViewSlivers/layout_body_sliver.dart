@@ -111,10 +111,10 @@ Widget _buildCommentHeader(BuildContext context, ItemModel itemModel) {
   String output;
   int kidsLength = itemModel.kids.length;
   if (kidsLength > 5) {
-    output = "Showing 5 of $kidsLength comments";
+    output = "Showing the 5 top-level\ncomments of $kidsLength";
   } else {
     output =
-        "Showing ${kidsLength != 1 ? "all" : "the"} $kidsLength comment${kidsLength != 1 ? "s" : ""}";
+        "Showing ${kidsLength != 1 ? "all" : "the"} $kidsLength top-level comment${kidsLength != 1 ? "s" : ""}";
   }
   return kidsLength < 1
       ? Text("")
@@ -125,6 +125,7 @@ Widget _buildCommentHeader(BuildContext context, ItemModel itemModel) {
             children: [
               Text(
                 output,
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400),
               ),
               kidsLength <= 5
