@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/helpers.dart';
-import 'package:html/parser.dart';
+import 'package:html/parser.dart' show parse;
 
 class LayoutBodySliver extends StatelessWidget {
   final ItemModel itemModel;
@@ -46,7 +46,7 @@ class LayoutBodySliver extends StatelessWidget {
 
 _buildSubTitle(ItemModel itemModel) {
   return Container(
-    margin: EdgeInsets.only(bottom: 15.0, top: 50.0),
+    margin: EdgeInsets.only(bottom: 15.0, top: 10.0),
     padding: EdgeInsets.only(left: 15.0, right: 15.0),
     // color: Colors.red,
     child: FittedBox(
@@ -94,15 +94,13 @@ _buildSubTitle(ItemModel itemModel) {
 _buildBodyText(String text, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-    //child: Text(renderHtmlBodyText(text)),
+    //child: renderHtmlBodyText(text),
     child: SelectableText.rich(
       TextSpan(
         text: parse(text).body.text,
         style: TextStyle(
-          color: Colors.black87,
           fontSize: 20.0,
-          fontWeight: FontWeight.w400,
-          height: 2,
+          height: 1.5,
         ),
       ),
     ),
