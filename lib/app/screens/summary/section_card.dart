@@ -35,16 +35,21 @@ class SectionCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(
-                title,
-                style: Theme.of(context).textTheme.caption,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
             ],
           ),
         ));
 
     return Card(
-      margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      elevation: 0.0,
       child: Column(
         children: sectionTitleList,
       ),

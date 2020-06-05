@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hacker_news/app/widgets/fade_animation.dart';
 
 class LayoutAppBarSliver extends StatefulWidget {
@@ -28,7 +29,8 @@ class _LayoutAppBarSliverState extends State<LayoutAppBarSliver> {
         duration: Duration(seconds: 1),
         child: Text(
           widget.title,
-          style: TextStyle(color: Colors.black87),
+          style: GoogleFonts.robotoSlab(
+              color: Colors.grey[900], fontSize: 24.0, letterSpacing: 1.25),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
         ),

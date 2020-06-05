@@ -172,9 +172,14 @@ class _Repository {
     return await _dbAPi.updateUserPrefs(userPrefs: userPrefs);
   }
 
+  // clear all list
+  Future<int> clearAllStoriesAndList() async {
+    await _dbAPi.deleteTable(dbTables: DbTables.listOfIds);
+    await _dbAPi.deleteTable(dbTables: DbTables.item);
+    return await _dbAPi.deleteTable(dbTables: DbTables.comments);
+  }
 // clear comments table
 // clear all items
-
 }
 
 _Repository _repository = _Repository();

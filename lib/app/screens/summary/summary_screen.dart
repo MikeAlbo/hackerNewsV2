@@ -6,6 +6,7 @@ import 'package:hacker_news/Models/user_prefs.dart';
 import 'package:hacker_news/app/screens/summary/section_card.dart';
 import 'package:hacker_news/app/widgets/app_bar.dart';
 import 'package:hacker_news/app/widgets/fade_animation.dart';
+import 'package:hacker_news/app/widgets/refresh.dart';
 
 class SummaryScreen extends StatefulWidget {
   @override
@@ -71,7 +72,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
         }
         _storiesBloc.fetchAllList();
         return Scaffold(
-          appBar: buildAppBar(title: "HackerNews", centerTitle: true),
+          appBar: buildAppBar(
+              title: "Hacker News",
+              centerTitle: true,
+              titleTextTheme: TitleTextTheme.AppHeading),
           body: StreamBuilder(
             stream: _storiesBloc.listOfIds,
             builder: (BuildContext ctx,
@@ -85,15 +89,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
               List<Widget> sectionCards = buildListOfSectionCards(
                   snapshot: snapshot, userPrefs: prefsSnapshot.data);
 
-              return FadeAnimation(
-                duration: Duration(seconds: 1),
-                child: Container(
-                  color: Colors.grey[400],
-                  child: ListView.builder(
-                    itemCount: sectionCards.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return sectionCards[index];
-                    },
+              return Refresh(
+                child: FadeAnimation(
+                  duration: Duration(seconds: 1),
+                  child: Container(
+                    color: Colors.grey[400],
+                    child: ListView.builder(
+                      itemCount: sectionCards.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return sectionCards[index];
+                      },
+                    ),
                   ),
                 ),
               );

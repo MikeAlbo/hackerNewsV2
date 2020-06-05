@@ -23,7 +23,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     List<int> favorites = favoritesBloc.getFavorites;
 
     return Scaffold(
-      appBar: buildAppBar(title: "Saved", centerTitle: false),
+      appBar: buildAppBar(
+          title: "Saved",
+          centerTitle: false,
+          titleTextTheme: TitleTextTheme.SectionHeading),
       body: FadeAnimation(
         duration: Duration(milliseconds: 500),
         child: favorites.length < 1

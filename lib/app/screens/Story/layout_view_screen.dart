@@ -27,18 +27,28 @@ class _LayoutViewScreenState extends State<LayoutViewScreen> {
   bool showBottomAppBar = true;
 
   void _showAppBar() {
-    setState(() {
-      showBottomAppBar = true;
+    delayUI(() {
       SystemChrome.setEnabledSystemUIOverlays(
           [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    });
+    setState(() {
+      showBottomAppBar = true;
     });
   }
 
   void _hideAppBar() {
+    delayUI(() {
+      SystemChrome.setEnabledSystemUIOverlays([]);
+    }, millSec: 100);
     setState(() {
       showBottomAppBar = false;
-      SystemChrome.setEnabledSystemUIOverlays([]);
     });
+  }
+
+  // delay an element being displayed on the screen
+  // specifically built fot SystemChrome.setEnabled...
+  delayUI(VoidCallback callback, {int millSec = 400}) async {
+    return Future.delayed(Duration(milliseconds: millSec), callback);
   }
 
   /*

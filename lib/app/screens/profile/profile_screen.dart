@@ -38,11 +38,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     }
 
-    void bestStorySwitch(bool _) {
-      setState(() {
-        _storiesBloc.updateSettingsBool(idListName: IdListName.bestStories);
-      });
-    }
+//    void bestStorySwitch(bool _) {
+//      setState(() {
+//        _storiesBloc.updateSettingsBool(idListName: IdListName.bestStories);
+//      });
+//    }
 
     void jobStorySwitch(bool _) {
       setState(() {
@@ -63,7 +63,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(title: "Profile", centerTitle: false),
+      appBar: buildAppBar(
+          title: "Profile",
+          centerTitle: false,
+          titleTextTheme: TitleTextTheme.SectionHeading),
       body: Container(
         color: Colors.grey[100],
         child: StreamBuilder(
@@ -82,20 +85,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   ListBody(
                     children: <Widget>[
-                      Center(child: Text("Last Updated:")),
-                      Center(
-                        child: Text(formatDate(
-                            time: snapshot.data.lastUpdated,
-                            convertFromSeconds: false)),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.refresh),
-                        color: Colors.blue,
-                        //iconSize: 50.0,
-                        onPressed: () {
-                          print("refresh!");
-                        }, //todo: call refresh
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(
+                                "App Settings\nLast Updated:",
+                                textAlign: TextAlign.center,
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 10.0, 0.0, 0.0),
+                                child: Center(
+                                  child: Text(
+                                    formatDate(
+                                        time: snapshot.data.lastUpdated,
+                                        convertFromSeconds: false),
+                                    style: TextStyle(fontSize: 22.0),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                  //todo: clear settings
+                                  padding: EdgeInsets.all(5.00),
+                                  onPressed: () => _storiesBloc.clearAllData(),
+                                  icon: Icon(
+                                    Icons.delete_outline,
+                                    size: 30.0,
+                                    color: Colors.red[300],
+                                  )),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(
+                                "List and Stories\nLast Updated:",
+                                textAlign: TextAlign.center,
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 10.0, 0.0, 000.0),
+                                child: Center(
+                                  child: Text(
+                                    formatDate(
+                                        time: snapshot.data.lastUpdated,
+                                        convertFromSeconds: false),
+                                    style: TextStyle(fontSize: 22.0),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                  padding: EdgeInsets.all(5.00),
+                                  onPressed: () => _storiesBloc.clearAllData(),
+                                  icon: Icon(
+                                    Icons.delete_outline,
+                                    size: 30.0,
+                                    color: Colors.red[300],
+                                  )),
+                            ],
+                          ),
+                        ],
+                      )
                     ],
                   ),
                   Card(
@@ -112,12 +167,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           value: snapshot.data.showNewStories,
                         ),
                         insertDivider(isTitle: false),
-                        SwitchListTile(
-                          title: Text("Best Stories"),
-                          onChanged: bestStorySwitch,
-                          value: snapshot.data.showBestStories,
-                        ),
-                        insertDivider(isTitle: false),
+//                        SwitchListTile(
+//                          title: Text("Best Stories"),
+//                          onChanged: bestStorySwitch,
+//                          value: snapshot.data.showBestStories,
+//                        ),
+//                        insertDivider(isTitle: false),
                         SwitchListTile(
                           title: Text("Top Stories"),
                           onChanged: topStorySwitch,

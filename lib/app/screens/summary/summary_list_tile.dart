@@ -29,12 +29,12 @@ class _SummaryListTileState extends State<SummaryListTile> {
           onTap: () {
             Navigator.pushNamed(context, "/story", arguments: widget.itemModel);
           },
-          contentPadding: EdgeInsets.all(12.0),
-          leading: Icon(
-            chooseArticleIcon(idListName: widget.idListName),
-            size: 20.0,
-            color: Colors.blueGrey,
-          ),
+          contentPadding: EdgeInsets.all(20.0),
+//          leading: Icon(
+//            chooseArticleIcon(idListName: widget.idListName),
+//            size: 20.0,
+//            color: Colors.blueGrey,
+//          ),
           trailing: IconButton(
             icon: Icon(
               isSelected ? Icons.bookmark : Icons.bookmark_border,
@@ -48,10 +48,14 @@ class _SummaryListTileState extends State<SummaryListTile> {
           title: Text(
             widget.itemModel.title,
             overflow: TextOverflow.visible,
+            style: TextStyle(fontSize: 18.0),
           ),
-          subtitle: _buildListBody(itemModel: widget.itemModel),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: _buildListBody(itemModel: widget.itemModel),
+          ),
         ),
-        insertDivider(isTitle: false),
+        //Container(width: 300.0, child: insertDivider(isTitle: true)),
       ],
     );
   }
@@ -65,7 +69,10 @@ Widget _buildListBody({ItemModel itemModel}) {
           padDirection: PadDirection.padRight,
           padChar: ".");
 
-  final Text dateAndByText = Text(formatDateByString(itemModel: itemModel));
+  final Text dateAndByText = Text(
+    formatDateByString(itemModel: itemModel),
+    style: TextStyle(fontSize: 16.0),
+  );
   final String linkText = trimUrl(itemModel.url);
 
   List<Widget> bodyElements = [];

@@ -105,6 +105,7 @@ class DbAPi {
   // drop a table
   Future<int> deleteTable({DbTables dbTables}) async {
     await ready;
+    print("clearing table --> $dbTables");
     return db.delete(getTableName(dbTables));
   }
 }

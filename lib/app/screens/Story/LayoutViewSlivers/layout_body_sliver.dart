@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hacker_news/Models/item.dart';
 import 'package:hacker_news/app/screens/helpers.dart';
-import 'package:html/parser.dart' show parse;
+import 'package:hacker_news/app/widgets/text_renderer.dart';
 
 class LayoutBodySliver extends StatelessWidget {
   final ItemModel itemModel;
@@ -95,14 +95,9 @@ _buildBodyText(String text, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
     //child: renderHtmlBodyText(text),
-    child: SelectableText.rich(
-      TextSpan(
-        text: parse(text).body.text,
-        style: TextStyle(
-          fontSize: 20.0,
-          height: 1.5,
-        ),
-      ),
+    child: TextRenderer(
+      text: text,
+      textType: TextType.body,
     ),
   );
 }

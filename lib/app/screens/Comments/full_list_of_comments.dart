@@ -11,7 +11,10 @@ class FullListOfComments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(title: "All Comments", centerTitle: true),
+      appBar: buildAppBar(
+          title: "All Comments",
+          centerTitle: true,
+          titleTextTheme: TitleTextTheme.StoryView),
       body: _buildAllCommentsLayout(itemModel, context),
     );
   }

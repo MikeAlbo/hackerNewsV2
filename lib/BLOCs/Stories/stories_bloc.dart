@@ -59,6 +59,10 @@ class StoriesBloc {
     _userPrefs.sink.add(userPrefs);
   }
 
+  Future<int> clearAllData() async {
+    return await repo.clearAllStoriesAndList();
+  }
+
   dispose() {
     _allListOfIds.close();
     _singleListOfIds.close();

@@ -36,6 +36,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
             appBar: buildAppBar(
                 title: "Stories",
                 centerTitle: false,
+                titleTextTheme: TitleTextTheme.SectionHeading,
                 bottom: TabBar(
                   unselectedLabelColor: Colors.grey[500],
                   labelColor: Colors.black87,

@@ -39,7 +39,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
         itemModel: widget.itemModel,
         viewMode: ViewMode.webView,
       ),
-      appBar: buildAppBar(title: widget.itemModel.title, centerTitle: true),
+      appBar: buildAppBar(
+          title: widget.itemModel.title,
+          centerTitle: true,
+          titleTextTheme: TitleTextTheme.StoryView),
       body: errorLoading
           ? _errorLoadingPage()
           : Builder(
